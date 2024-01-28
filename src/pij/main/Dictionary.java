@@ -13,7 +13,7 @@ public class Dictionary {
     }
 
     public void load() {
-        File file = new File("C:\\Users\\Diamond\\IdeaProjects\\pij-2023-24-coursework-nikoo99m\\out\\production\\pij-2023-24-coursework-nikoo99m\\pij\\main\\wordlist.txt");
+        File file = new File("resources\\wordlist.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
