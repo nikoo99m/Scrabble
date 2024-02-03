@@ -7,7 +7,8 @@ public abstract class Square{
     {
         this.tile = givenTile;
     }
-    public String ToString(){
+    @Override
+    public String toString(){
         if(tile == null)
             return generateSquareText();
         else

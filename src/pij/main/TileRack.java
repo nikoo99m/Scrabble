@@ -3,7 +3,7 @@ package pij.main;
 import java.lang.reflect.Array;
 
 public class TileRack {
-    Tile[] Rack = new Tile[7];
+    public Tile[] Rack = new Tile[7];
 
     public boolean add(Tile tile) {
         for (int i = 0; i < 7; i++) {
@@ -13,6 +13,16 @@ public class TileRack {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String m = "";
+        for(int i = 0 ; i < Rack.length ; i++){
+            String n = Rack[i].character;
+            m = m + n;
+        }
+        return m;
     }
 
     public Tile pick(int index) {
