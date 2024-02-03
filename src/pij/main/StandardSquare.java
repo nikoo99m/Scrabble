@@ -7,6 +7,6 @@ public class StandardSquare extends Square{
         this.multiplier = 1;
     }
     @Override public String generateSquareText(){
-        return ".";
+        return StringHelper.set5(".");
     }
 }

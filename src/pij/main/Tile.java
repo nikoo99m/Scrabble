@@ -9,6 +9,6 @@ public class Tile {
         this.value = value;
     }
     public String ToString(){
-        return character + value;
+        return StringHelper.set5(character + value);
     }
 }

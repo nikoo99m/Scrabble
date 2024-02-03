@@ -7,7 +7,7 @@ public class CurlySquare extends Square{
         this.multiplier = mul;
     }
     @Override public String generateSquareText(){
-        return "{" + multiplier + "}";
+        return StringHelper.set5("{" + multiplier + "}");
     }
 }
 
