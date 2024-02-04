@@ -30,9 +30,17 @@ public class Board {
     }
 
     public void prettyPrint() {
+        char ch = 'a';
+        System.out.print("     ");
         for (int i = 0; i < size; i++) {
+            System.out.print(StringHelper.set5(String.valueOf(ch)));
+            ch++;
+        }
+        System.out.println();
+        for (int i = 0; i < size; i++) {
+            System.out.print(StringHelper.set5(String.valueOf(i)));
             for (int j = 0; j < size; j++) {
-                System.out.print(letter[i][j].toString() + " ");
+                System.out.print(letter[i][j].toString());
             }
             System.out.println();
         }
