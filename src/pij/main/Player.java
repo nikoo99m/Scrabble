@@ -8,10 +8,12 @@ public class Player {
     public TileRack playerRack;
     public TileBag tileBag;
     public Board board;
+    public Dictionary dictionary;
 
-    public Player(TileBag tileBag, Board board) {
+    public Player(TileBag tileBag, Board board, Dictionary dictionary) {
         this.tileBag = tileBag;
         this.board = board;
+        this.dictionary = dictionary;
         playerRack = new TileRack();
     }
 
@@ -75,11 +77,10 @@ public class Player {
     }
 
 
-
     public Tile fetchTileFromRack(String c) {
         for (int i = 0; i < playerRack.Rack.length; i++) {
             Tile tile = playerRack.Rack[i];
-            if (tile != null && tile.character.equals(c)){
+            if (tile != null && tile.character.equals(c)) {
                 playerRack.Rack[i] = null;
                 return tile;
             }
@@ -96,22 +97,30 @@ public class Player {
         String startingPoint = parts[1];
 
         boolean vertical = isVertical(startingPoint);
-        Location location;
 
-        if (!vertical) {
-            location = getStartingLocation(startingPoint, true);
-        } else {
-            location = getStartingLocation(startingPoint, false);
-        }
+        Location location = getLocation(vertical, startingPoint);
 
         int i = Integer.parseInt(location.numberPart);
         int j = get(location.charPart.charAt(0));
 
-        for (int m = 0; m < tileSelection.length(); m++) {
-            String s = String.valueOf(tileSelection.charAt(m));
+        boolean isInDictionary = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
+        boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
+
+        // if (isInDictionary && overlapsOnBoard) {
+        if (isInDictionary) {
+            setTile(tileSelection, i, j, vertical);
+        }
+    }
+
+    private void setTile(String tileSelection, int i, int j, boolean vertical) {
+        int m = 0;
+        while (m < tileSelection.length()){
+        //for (int m = 0; m < tileSelection.length(); m++) {
+            String currentCharacterFromSelection = String.valueOf(tileSelection.charAt(m));
             if (board.letter[i][j].tile == null) {
-                Tile tile = fetchTileFromRack(s);
+                Tile tile = fetchTileFromRack(currentCharacterFromSelection);
                 board.letter[i][j].setTile(tile);
+                m++;
             }
             if (!vertical) {
                 j++;
@@ -119,6 +128,59 @@ public class Player {
                 i++;
             }
         }
+    }
+
+    private boolean nextTileIsEmpty(boolean isVertical, int i, int j) {
+
+            return board.letter[i][j].tile == null;
+    }
+
+    private boolean ckeckIsInDictionary(int i, int j, String tileSelection, String startingPoint) {
+        String acceptedWord = "";
+        boolean isVertical = isVertical(startingPoint);
+        int n = 0;
+        while (n < tileSelection.length() || !nextTileIsEmpty(isVertical, i, j)) {
+            // }
+            // for (int n = 0; n < tileSelection.length(); n++) {
+            if (board.letter[i][j].tile == null) {
+                acceptedWord += tileSelection.charAt(n);
+                n++;
+            } else {
+                acceptedWord += board.letter[i][j].tile.character;
+            }
+            if (isVertical) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        if (dictionary.exists(acceptedWord))
+            return true;
+        return false;
+    }
+
+    private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
+        for (int k = 0; k < tileSelection.length(); k++) {
+            if (board.letter[i][j].tile != null) {
+                return true;
+            }
+            if (isVertical(startingPoint)) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return false;
+    }
+
+    private Location getLocation(boolean vertical, String startingPoint) {
+        Location location;
+        if (!vertical) {
+            location = getStartingLocation(startingPoint, true);
+        } else {
+            location = getStartingLocation(startingPoint, false);
+        }
+        return location;
     }
 }
 

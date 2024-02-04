@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Dictionary {
-    ArrayList<String> wordList = new ArrayList<String>();
+    private ArrayList<String> wordList = new ArrayList<String>();
 
+    public  Dictionary(){
+        load();
+    }
     public boolean exists(String word) {
-        return wordList.contains(word);
+        return wordList.contains(word.toLowerCase());
     }
 
     public void load() {
