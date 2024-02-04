@@ -30,6 +30,19 @@ public class Board {
     }
 
     public void prettyPrint() {
+        printXAxisHeader();
+        for (int i = 0; i < size; i++) {
+            System.out.print(StringHelper.set5(String.valueOf(i)));
+            for (int j = 0; j < size; j++) {
+                System.out.print(letter[i][j].toString());
+            }
+            System.out.print(StringHelper.set5(String.valueOf(i)));
+            System.out.println();
+        }
+        printXAxisHeader();
+    }
+
+    private void printXAxisHeader() {
         char ch = 'a';
         System.out.print("     ");
         for (int i = 0; i < size; i++) {
@@ -37,13 +50,6 @@ public class Board {
             ch++;
         }
         System.out.println();
-        for (int i = 0; i < size; i++) {
-            System.out.print(StringHelper.set5(String.valueOf(i)));
-            for (int j = 0; j < size; j++) {
-                System.out.print(letter[i][j].toString());
-            }
-            System.out.println();
-        }
     }
 
     public void setSquare(int row, int col, Square square) {
