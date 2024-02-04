@@ -30,11 +30,13 @@ public class Main {
         // Print the filled board matrix directly
         board.prettyPrint();
         TileBag bag = new TileBag();
-        Player p =new Player(bag, board);
+        Dictionary dictionary= new Dictionary();
+        while(true){
+        Player p =new Player(bag, board , dictionary);
         p.fillTileRack();
 
         p.move();
-        board.prettyPrint();
+        board.prettyPrint();}
 
 
     }
