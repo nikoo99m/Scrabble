@@ -30,54 +30,58 @@ public class Main {
         // Print the filled board matrix directly
         board.prettyPrint();
         TileBag bag = new TileBag();
-        Dictionary dictionary= new Dictionary();
-        while(true){
-        Player p =new Player(bag, board , dictionary);
-        p.fillTileRack();
+        Dictionary dictionary = new Dictionary();
+        boolean isFirstMove = true;
+        while (true) {
+            Player p = new Player(bag, board, dictionary, isFirstMove);
+            p.fillTileRack();
 
-        p.move();
-        board.prettyPrint();}
+            p.move();
+            isFirstMove = false;
+
+            board.prettyPrint();
+        }
 
 
     }
 }
 
-        //test("resources\\defaultBoard.txt");
-       // String currentPath = System.getProperty("user.dir");
+//test("resources\\defaultBoard.txt");
+// String currentPath = System.getProperty("user.dir");
 
-        //Dictionary dictionary=new Dictionary();
-        //dictionary.load();
-        //boolean b=dictionary.exists("aa");
-        //boolean c=dictionary.exists("nikoo");
-        //Integer[] B={2,3,5};
-        //ArrayList<Integer> list= new ArrayList<Integer>(List.of(1, 2, 3, 4, 5));
+//Dictionary dictionary=new Dictionary();
+//dictionary.load();
+//boolean b=dictionary.exists("aa");
+//boolean c=dictionary.exists("nikoo");
+//Integer[] B={2,3,5};
+//ArrayList<Integer> list= new ArrayList<Integer>(List.of(1, 2, 3, 4, 5));
 
-        //boolean i = list.contains(5);
+//boolean i = list.contains(5);
 
 
-        //DefaultBoard n=new DefaultBoard();
-        //n.read();
-        //Board board = new Board();
-        //System.out.println("Initial Matrix:");
-        //board.prettyPrint();
-        //DefaultBoard customBoard = new DefaultBoard();
-        //customBoard.prettyPrint();
-        //TileBag tileBag = new TileBag();
+//DefaultBoard n=new DefaultBoard();
+//n.read();
+//Board board = new Board();
+//System.out.println("Initial Matrix:");
+//board.prettyPrint();
+//DefaultBoard customBoard = new DefaultBoard();
+//customBoard.prettyPrint();
+//TileBag tileBag = new TileBag();
 
-        //System.out.println("Tiles map:");
-        //tileBag.Tiles.forEach((key, value) -> System.out.println(key + "" + value));
+//System.out.println("Tiles map:");
+//tileBag.Tiles.forEach((key, value) -> System.out.println(key + "" + value));
 
-        //TileBag tileBag = new TileBag();
+//TileBag tileBag = new TileBag();
 
-        //System.out.println("Tiles in the TileBag:");
-        //for (Tile tile : tileBag.Bag) {
-            //System.out.println(tile.ToString());
+//System.out.println("Tiles in the TileBag:");
+//for (Tile tile : tileBag.Bag) {
+//System.out.println(tile.ToString());
 
-        //}
-        //Tile a = tileBag.randomPop();
+//}
+//Tile a = tileBag.randomPop();
 
-        //TileRack rack = new TileRack();
-        //Tile t = rack.Rack[5];
-       // rack.add(a);
-       // int i = 0;
+//TileRack rack = new TileRack();
+//Tile t = rack.Rack[5];
+// rack.add(a);
+// int i = 0;
 
