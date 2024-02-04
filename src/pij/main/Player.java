@@ -9,12 +9,14 @@ public class Player {
     public TileBag tileBag;
     public Board board;
     public Dictionary dictionary;
+    private boolean isFirstMove;
 
-    public Player(TileBag tileBag, Board board, Dictionary dictionary) {
+    public Player(TileBag tileBag, Board board, Dictionary dictionary, boolean isFirstMove) {
         this.tileBag = tileBag;
         this.board = board;
         this.dictionary = dictionary;
         playerRack = new TileRack();
+        this.isFirstMove = isFirstMove;
     }
 
     public void fillTileRack() {
@@ -106,16 +108,17 @@ public class Player {
         boolean isInDictionary = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
         boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
 
-        // if (isInDictionary && overlapsOnBoard) {
-        if (isInDictionary) {
+        if (isInDictionary && overlapsOnBoard) {
+            //if (isInDictionary) {
             setTile(tileSelection, i, j, vertical);
         }
     }
 
+
     private void setTile(String tileSelection, int i, int j, boolean vertical) {
         int m = 0;
-        while (m < tileSelection.length()){
-        //for (int m = 0; m < tileSelection.length(); m++) {
+        while (m < tileSelection.length()) {
+            //for (int m = 0; m < tileSelection.length(); m++) {
             String currentCharacterFromSelection = String.valueOf(tileSelection.charAt(m));
             if (board.letter[i][j].tile == null) {
                 Tile tile = fetchTileFromRack(currentCharacterFromSelection);
@@ -132,7 +135,7 @@ public class Player {
 
     private boolean nextTileIsEmpty(boolean isVertical, int i, int j) {
 
-            return board.letter[i][j].tile == null;
+        return board.letter[i][j].tile == null;
     }
 
     private boolean ckeckIsInDictionary(int i, int j, String tileSelection, String startingPoint) {
@@ -160,7 +163,11 @@ public class Player {
     }
 
     private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
-        for (int k = 0; k < tileSelection.length(); k++) {
+        if(isFirstMove) {
+            return true;
+        }
+
+        for (int k = 0; k < tileSelection.length() + 1; k++) {
             if (board.letter[i][j].tile != null) {
                 return true;
             }
