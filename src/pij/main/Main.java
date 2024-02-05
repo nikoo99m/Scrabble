@@ -1,15 +1,5 @@
 package pij.main;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Scanner;
-
 
 public class Main {
 
@@ -32,13 +22,15 @@ public class Main {
         TileBag bag = new TileBag();
         Dictionary dictionary = new Dictionary();
         boolean isFirstMove = true;
+        Player p = new Player(bag, board, dictionary, isFirstMove);
         while (true) {
-            Player p = new Player(bag, board, dictionary, isFirstMove);
             p.fillTileRack();
 
-            p.move();
+            MoveReturn move = p.move();
             isFirstMove = false;
-
+            int score = ScoreHelper.CalculatingplayerScore(board, move);
+            p.score += score;
+            System.out.println(score);
             board.prettyPrint();
         }
 
