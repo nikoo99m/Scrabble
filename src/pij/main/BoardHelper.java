@@ -1,5 +1,8 @@
 package pij.main;
 
+import pij.main.Commands.SetBracketSquare;
+import pij.main.Commands.SetCurlySquare;
+import pij.main.Commands.SetStandardSquare;
 import pij.main.Exceptions.*;
 
 import java.io.File;
@@ -55,8 +58,9 @@ public class BoardHelper {
         int size;
         try {
             size = Integer.parseInt(sizeAsString);
+        } catch (NumberFormatException ex) {
+            throw new InvalidValueFormatForBoardSizeException(sizeAsString);
         }
-        catch (NumberFormatException ex) {throw new InvalidValueFormatForBoardSizeException(sizeAsString);}
         return size;
     }
 
@@ -78,64 +82,13 @@ public class BoardHelper {
             for (int j = 0; j < fields.size(); j++) {
                 String field = fields.get(j);
                 if (field.contains("{")) {
-                    setFieldAsCurlySquare(board, field, i, j);
+                    new SetCurlySquare(board, i, j, field).setFieldSquare();
                 } else if (field.contains("(")) {
-                    setFieldBracketSquare(board, field, i, j);
+                    new SetBracketSquare(board, i, j, field).setFieldSquare();
+
                 } else {
-                    setFieldStandardSquare(board, i, j);
+                    new SetStandardSquare(board, i, j).setFieldSquare();
                 }
-            }
-        }
-    }
-
-    private static void setFieldStandardSquare(Board board, int i, int j) {
-        board.letter[i][j] = new StandardSquare();
-    }
-
-    private static void setFieldBracketSquare(Board board, String field, int i, int j)
-            throws OutOfRangeBoardValueException, InvalidInputFormatAsPremiumFieldException {
-        String regex = "\\((-?\\d+)\\)";
-        Pattern patternx = Pattern.compile(regex);
-
-        Matcher matcher = patternx.matcher(field);
-        if (matcher.find()) {
-            String numberString = matcher.group(1);
-
-            int number;
-            try {
-                number = Integer.parseInt(numberString);
-            }
-            catch (NumberFormatException ex) {throw new InvalidInputFormatAsPremiumFieldException(numberString);}
-
-            // Validate if number falls within the range -9 to 99
-            if (number >= -9 && number <= 99) {
-                board.letter[i][j] = new BracketSquare(number);
-            } else {
-                throw new OutOfRangeBoardValueException();
-            }
-        }
-    }
-
-    private static void setFieldAsCurlySquare(Board board, String field, int i, int j)
-            throws OutOfRangeBoardValueException, InvalidInputFormatAsPremiumFieldException {
-        String regex = "\\{(-?\\d+)\\}";
-        Pattern patternx = Pattern.compile(regex);
-
-        Matcher matcher = patternx.matcher(field);
-        if (matcher.find()) {
-            String numberString = matcher.group(1);
-
-            int number;
-            try {
-                number = Integer.parseInt(numberString);
-            }
-            catch (NumberFormatException ex) {throw new InvalidInputFormatAsPremiumFieldException(numberString);}
-
-            // Validate if number falls within the range -9 to 99
-            if (number >= -9 && number <= 99) {
-                board.letter[i][j] = new CurlySquare(number);
-            } else {
-                throw new OutOfRangeBoardValueException();
             }
         }
     }
