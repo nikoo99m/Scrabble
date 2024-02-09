@@ -1,6 +1,8 @@
-package pij.main;
+package pij.main.Squares;
 
-public class CurlySquare extends Square{
+import pij.main.StringHelper;
+
+public class CurlySquare extends Square {
 
     public CurlySquare(int mul)
     {

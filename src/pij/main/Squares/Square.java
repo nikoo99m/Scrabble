@@ -1,4 +1,6 @@
-package pij.main;
+package pij.main.Squares;
+
+import pij.main.Tile;
 
 public abstract class Square{
     int multiplier;
