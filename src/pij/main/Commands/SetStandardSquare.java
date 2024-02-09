@@ -1,8 +1,8 @@
 package pij.main.Commands;
 
 import pij.main.Board;
-import pij.main.Square;
-import pij.main.StandardSquare;
+import pij.main.Squares.Square;
+import pij.main.Squares.StandardSquare;
 
 public class SetStandardSquare extends SetFieldSquare
 {

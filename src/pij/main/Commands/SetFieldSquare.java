@@ -3,7 +3,7 @@ package pij.main.Commands;
 import pij.main.Board;
 import pij.main.Exceptions.InvalidInputFormatAsPremiumFieldException;
 import pij.main.Exceptions.OutOfRangeBoardValueException;
-import pij.main.Square;
+import pij.main.Squares.Square;
 
 public abstract class SetFieldSquare
 {
