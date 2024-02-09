@@ -1,5 +1,10 @@
 package pij.main;
 
+import pij.main.Squares.BracketSquare;
+import pij.main.Squares.CurlySquare;
+import pij.main.Squares.Square;
+import pij.main.Squares.StandardSquare;
+
 import java.util.Random;
 
 public class Board {
