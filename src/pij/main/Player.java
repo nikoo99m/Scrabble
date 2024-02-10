@@ -23,10 +23,19 @@ public class Player {
     }
 
 
-
     public void fillTileRack() {
         while (playerRack.add(tileBag.randomPop()))
             ;
+        //playerRack.Rack[0].character = "_";
+    }
+
+    public WildCardReturn wildCardExists() {
+        for (int i = 0; i < playerRack.Rack.length; i++) {
+            if (playerRack.Rack[i].character.equals("_")) {
+                return new WildCardReturn(i, true);
+            }
+        }
+        return new WildCardReturn(-1, false);
     }
 
     private int get(char startChar) {
@@ -96,6 +105,23 @@ public class Player {
     }
 
     public MoveReturn move() {
+        WildCardReturn wcr = wildCardExists();
+        System.out.println(playerRack.toString());
+        while (wcr.isWildCard) {
+            System.out.println("Do you want to use the wildCard ?");
+            System.out.println("if you want just say true otherwise false");
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.next();
+            if (answer.equals("true")) {
+                System.out.println("Enter your desired character:" + " ");
+                String wildCardValue = scanner.next();
+                playerRack.Rack[wcr.index].character = wildCardValue;
+            }
+            else
+                break;
+            wcr = wildCardExists();
+        }
+
         System.out.println(playerRack.toString());
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
