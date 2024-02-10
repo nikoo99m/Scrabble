@@ -17,6 +17,10 @@ public class Board {
         //makeItAll();
     }
 
+    public int getSize()
+    {
+        return size;
+    }
     public void makeItAll() {
         Random random = new Random();
         for (int i = 0; i < size; i++) {

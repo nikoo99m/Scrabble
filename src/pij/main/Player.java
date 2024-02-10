@@ -22,6 +22,8 @@ public class Player {
 
     }
 
+
+
     public void fillTileRack() {
         while (playerRack.add(tileBag.randomPop()))
             ;
@@ -108,18 +110,23 @@ public class Player {
         int i = Integer.parseInt(location.numberPart);
         int j = get(location.charPart.charAt(0));
 
+        boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, i, j, startingPoint);
+        if (collidesWithBoardEdge) {
+            System.out.println("Invalid move detected. Selected move results in a tile placement out of bounds of the board.");
+            return null;
+        }
+
         CheckIsInDictionaryReturn checkInDictionaryResult = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
         boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
         boolean isMoved = false;
-        //if (checkInDictionaryResult && overlapsOnBoard) {
-            if (checkInDictionaryResult.isInDictionary) {
+        if (checkInDictionaryResult.isInDictionary && overlapsOnBoard) {
+            //if (checkInDictionaryResult.isInDictionary) {
             setTile(tileSelection, i, j, vertical);
-            isMoved =true;
+            isMoved = true;
         }
 
         return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, isMoved, vertical);
     }
-
 
     private void setTile(String tileSelection, int i, int j, boolean vertical) {
         int m = 0;
@@ -142,16 +149,20 @@ public class Player {
     private boolean nextTileIsEmpty(boolean isVertical, int i, int j) {
 
         return board.letter[i][j].tile == null;
-    }   public class CheckIsInDictionaryReturn{
+    }
+
+    public class CheckIsInDictionaryReturn {
         String acceptedWord;
         boolean isInDictionary;
 
-        public CheckIsInDictionaryReturn(String acceptedWord, boolean checkIsInDictionary){
+        public CheckIsInDictionaryReturn(String acceptedWord, boolean checkIsInDictionary) {
             this.acceptedWord = acceptedWord;
             this.isInDictionary = checkIsInDictionary;
         }
     }
-    private CheckIsInDictionaryReturn ckeckIsInDictionary(int i, int j, String tileSelection, String startingPoint) {
+
+    private CheckIsInDictionaryReturn ckeckIsInDictionary(int i, int j, String tileSelection, String
+            startingPoint) {
         String acceptedWord = "";
         boolean isVertical = isVertical(startingPoint);
         int n = 0;
@@ -176,13 +187,33 @@ public class Player {
     }
 
     private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
-        if(isFirstMove) {
+        if (isFirstMove) {
             return true;
         }
 
         for (int k = 0; k < tileSelection.length() + 1; k++) {
             if (board.letter[i][j].tile != null) {
                 return true;
+            }
+            if (isVertical(startingPoint)) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkCollidesWithBoardEdge(String tileSelection, int i, int j, String startingPoint) {
+
+        int boardSize = board.getSize();
+
+        for (int k = 0; k < tileSelection.length() + 1; k++) {
+            if (i > boardSize - 1 || j > boardSize - 1)
+                return true;
+
+            if (board.letter[i][j].tile != null) {
+                continue;
             }
             if (isVertical(startingPoint)) {
                 i++;
