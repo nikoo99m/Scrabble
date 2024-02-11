@@ -1,5 +1,6 @@
 package pij.main.services;
 
+import pij.main.models.Location;
 import pij.main.models.Squares.BracketSquare;
 import pij.main.models.Squares.CurlySquare;
 import pij.main.models.Squares.Square;
@@ -61,7 +62,11 @@ public class Board {
         }
         System.out.println();
     }
-
+    public Location getStartingPoint()
+    {
+        int x = (int)Math.ceil((double) size /2);
+        return new Location(x - 1, x - 1);
+    }
     public void setSquare(int row, int col, Square square) {
         letter[row][col] = square;
     }

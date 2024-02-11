@@ -102,22 +102,23 @@ public class Player {
     }
 
     public boolean isStartingPointValid(String startingPoint) {
-        String pattern = "\\d{1,2}[a-zA-Z]";
+        String pattern = "\\d{1,2}[a-zA-Z]|[a-zA-Z]\\d{1,2}";
         boolean x = startingPoint.matches(pattern);
         if (!x)
             return false;
 
         boolean vertical = isVertical(startingPoint);
         Location location = getLocation(vertical, startingPoint);
-        int i = location.numberPart;
-        int j = location.charPart;
-        if (i > board.getSize()-1 || j > board.getSize()-1) {
+        int i = location.i;
+        int j = location.j;
+        if (i > board.getSize() - 1 || j > board.getSize() - 1) {
             return false;
         }
 
 
         return true;
     }
+
 
     public MoveReturn move() {
 
@@ -160,8 +161,8 @@ public class Player {
 
         Location location = getLocation(vertical, startingPoint);
 
-        int i = location.numberPart;
-        int j = location.charPart;
+        int i = location.i;
+        int j = location.j;
 
         boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, i, j, startingPoint);
         if (collidesWithBoardEdge) {
@@ -170,6 +171,11 @@ public class Player {
         }
 
         CheckIsInDictionaryReturn checkInDictionaryResult = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
+        if (!checkInDictionaryResult.isInDictionary) {
+            System.out.println("Chosen word is not in dictionary.");
+            return null;
+        }
+
         boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
         boolean isMoved = false;
         if (checkInDictionaryResult.isInDictionary && overlapsOnBoard) {
@@ -229,11 +235,13 @@ public class Player {
     }
 
     private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
-        if (isFirstMove) {
-            return true;
-        }
 
         for (int k = 0; k < tileSelection.length() + 1; k++) {
+            if (isFirstMove) {
+                Location boardCentre = board.getStartingPoint();
+                if (i == boardCentre.i && j == boardCentre.j)
+                    return true;
+            }
             if (board.letter[i][j].tile != null) {
                 return true;
             }
@@ -243,6 +251,11 @@ public class Player {
                 j++;
             }
         }
+        if (isFirstMove)
+            System.out.println("Selected location does not overlap with the centre of board.");
+        else
+            System.out.println("Selected word and starting combination does not overlap with an existing word on the board.");
+
         return false;
     }
 
