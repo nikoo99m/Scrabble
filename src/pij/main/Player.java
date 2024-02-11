@@ -12,7 +12,6 @@ public class Player {
     private boolean isFirstMove;
     public int score;
 
-
     public Player(TileBag tileBag, Board board, Dictionary dictionary, boolean isFirstMove) {
         this.tileBag = tileBag;
         this.board = board;
@@ -21,7 +20,6 @@ public class Player {
         this.isFirstMove = isFirstMove;
 
     }
-
 
     public void fillTileRack() {
         while (playerRack.add(tileBag.randomPop()))
@@ -38,16 +36,12 @@ public class Player {
         return new WildCardReturn(-1, false);
     }
 
-
-
-
     private boolean isVertical(String location) {
         if (Character.isDigit(location.charAt(0))) {
             return false;
         }
         return true;
     }
-
 
     private Location getStartingLocation(String inputString, boolean useNumberFirst) {
         Pattern pattern = Pattern.compile("([a-zA-Z]+)([0-9]+)|([0-9]+)([a-zA-Z]+)");
@@ -75,7 +69,6 @@ public class Player {
 
         throw new RuntimeException("No location found.");
     }
-
 
     public Tile fetchTileFromRack(String c) {
         for (int i = 0; i < playerRack.Rack.length; i++) {
@@ -186,7 +179,6 @@ public class Player {
     private void setTile(String tileSelection, int i, int j, boolean vertical) {
         int m = 0;
         while (m < tileSelection.length()) {
-            //for (int m = 0; m < tileSelection.length(); m++) {
             String currentCharacterFromSelection = String.valueOf(tileSelection.charAt(m));
             if (board.letter[i][j].tile == null) {
                 Tile tile = fetchTileFromRack(currentCharacterFromSelection);
@@ -204,16 +196,6 @@ public class Player {
     private boolean nextTileIsEmpty(boolean isVertical, int i, int j) {
 
         return board.letter[i][j].tile == null;
-    }
-
-    public class CheckIsInDictionaryReturn {
-        String acceptedWord;
-        boolean isInDictionary;
-
-        public CheckIsInDictionaryReturn(String acceptedWord, boolean checkIsInDictionary) {
-            this.acceptedWord = acceptedWord;
-            this.isInDictionary = checkIsInDictionary;
-        }
     }
 
     private CheckIsInDictionaryReturn ckeckIsInDictionary(int i, int j, String tileSelection, String
