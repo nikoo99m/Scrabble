@@ -26,7 +26,7 @@ public class Player {
     public void fillTileRack() {
         while (playerRack.add(tileBag.randomPop()))
             ;
-        //playerRack.Rack[0].character = "_";
+//        playerRack.Rack[0].character = "_";
     }
 
     public WildCardReturn wildCardExists() {
@@ -104,31 +104,66 @@ public class Player {
         throw new RuntimeException("Could not find player's choice in Rack.");
     }
 
+    public boolean isTileSelectionValid(String tileSelection) {
+        for (int j = 0; j < tileSelection.length(); j++) {
+            String charr = tileSelection.charAt(j) + "";
+            for (int i = 0; i < playerRack.Rack.length; i++) {
+                String rackChar = playerRack.Rack[i].character;
+                if (charr.equals(rackChar)){
+                    break;
+                } else if (i == playerRack.Rack.length-1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean isStartingPointValid(String tileSelection) {
+        String pattern = "\\d{1,2}[a-zA-Z]";
+        boolean x = tileSelection.matches(pattern);
+        if(!x)
+            return false;
+
+        return true;
+    }
+
     public MoveReturn move() {
+
         WildCardReturn wcr = wildCardExists();
         System.out.println(playerRack.toString());
         while (wcr.isWildCard) {
-            System.out.println("Do you want to use the wildCard ?");
-            System.out.println("if you want just say true otherwise false");
+            System.out.println("Do you want to use the wildCard?");
+            System.out.println("If you want just say true otherwise false.");
             Scanner scanner = new Scanner(System.in);
-            String answer = scanner.next();
-            if (answer.equals("true")) {
+            boolean answer = scanner.nextBoolean();
+
+            System.out.println("You entered: " + answer);
+            if (answer) {
                 System.out.println("Enter your desired character:" + " ");
                 String wildCardValue = scanner.next();
                 playerRack.Rack[wcr.index].character = wildCardValue;
-            }
-            else
+            } else
                 break;
             wcr = wildCardExists();
         }
 
-        System.out.println(playerRack.toString());
+        System.out.println("Please enter your move in the format: \"word,square\" (without the quotes)");
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
         String startingPoint = parts[1];
-
+        boolean isTileSelectionValid = isTileSelectionValid(tileSelection);
+        boolean isTileStartingPointValid = isStartingPointValid(startingPoint);
+        if (!isTileStartingPointValid) {
+            System.out.println("You can not paly with this starting point : " + startingPoint);
+            return null;
+        }
+        if (!isTileSelectionValid) {
+            System.out.println("With tiles " + playerRack + " you cannot play word " + moveAsString);
+            return null;
+        }
         boolean vertical = isVertical(startingPoint);
 
         Location location = getLocation(vertical, startingPoint);
@@ -149,8 +184,8 @@ public class Player {
             //if (checkInDictionaryResult.isInDictionary) {
             setTile(tileSelection, i, j, vertical);
             isMoved = true;
+            isFirstMove = false;
         }
-
         return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, isMoved, vertical);
     }
 
