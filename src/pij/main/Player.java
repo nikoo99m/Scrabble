@@ -38,14 +38,7 @@ public class Player {
         return new WildCardReturn(-1, false);
     }
 
-    private int get(char startChar) {
-        if (startChar >= 'a' && startChar <= 'z') {
-            return startChar - 'a';
-        } else {
-            // Handle invalid input
-            throw new IllegalArgumentException("Invalid input: " + startChar);
-        }
-    }
+
 
 
     private boolean isVertical(String location) {
@@ -55,16 +48,6 @@ public class Player {
         return true;
     }
 
-    public class Location {
-        public int numberPart;
-        public int charPart;
-
-        public Location(String numberPart, String charPart) {
-            this.charPart = get(charPart.charAt(0));
-            this.numberPart = Integer.parseInt(numberPart);
-
-        }
-    }
 
     private Location getStartingLocation(String inputString, boolean useNumberFirst) {
         Pattern pattern = Pattern.compile("([a-zA-Z]+)([0-9]+)|([0-9]+)([a-zA-Z]+)");
