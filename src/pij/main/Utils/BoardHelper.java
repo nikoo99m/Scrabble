@@ -1,9 +1,10 @@
-package pij.main;
+package pij.main.Utils;
 
 import pij.main.Commands.SetBracketSquare;
 import pij.main.Commands.SetCurlySquare;
 import pij.main.Commands.SetStandardSquare;
 import pij.main.Exceptions.*;
+import pij.main.Services.Board;
 
 import java.io.File;
 import java.io.FileNotFoundException;

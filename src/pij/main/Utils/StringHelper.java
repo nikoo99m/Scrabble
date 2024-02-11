@@ -1,4 +1,4 @@
-package pij.main;
+package pij.main.Utils;
 
 public class StringHelper {
     public static String set5(String inputString)

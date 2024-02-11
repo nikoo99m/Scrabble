@@ -1,8 +1,10 @@
-package pij.main;
+package pij.main.Utils;
 
-import pij.main.Squares.BracketSquare;
-import pij.main.Squares.Square;
-import pij.main.Squares.StandardSquare;
+import pij.main.Services.Board;
+import pij.main.Models.MethodReturns.MoveReturn;
+import pij.main.Models.Squares.BracketSquare;
+import pij.main.Models.Squares.Square;
+import pij.main.Models.Squares.StandardSquare;
 
 public class ScoreHelper {
 
