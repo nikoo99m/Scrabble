@@ -26,7 +26,7 @@ public class Player {
     public void fillTileRack() {
         while (playerRack.add(tileBag.randomPop()))
             ;
-//        playerRack.Rack[0].character = "_";
+        //playerRack.Rack[0].character = "_";
     }
 
     public WildCardReturn wildCardExists() {
@@ -56,12 +56,13 @@ public class Player {
     }
 
     public class Location {
-        public String numberPart;
-        public String charPart;
+        public int numberPart;
+        public int charPart;
 
         public Location(String numberPart, String charPart) {
-            this.charPart = charPart;
-            this.numberPart = numberPart;
+            this.charPart = get(charPart.charAt(0));
+            this.numberPart = Integer.parseInt(numberPart);
+
         }
     }
 
@@ -109,9 +110,9 @@ public class Player {
             String charr = tileSelection.charAt(j) + "";
             for (int i = 0; i < playerRack.Rack.length; i++) {
                 String rackChar = playerRack.Rack[i].character;
-                if (charr.equals(rackChar)){
+                if (charr.equals(rackChar)) {
                     break;
-                } else if (i == playerRack.Rack.length-1) {
+                } else if (i == playerRack.Rack.length - 1) {
                     return false;
                 }
             }
@@ -119,11 +120,20 @@ public class Player {
         return true;
     }
 
-    public boolean isStartingPointValid(String tileSelection) {
+    public boolean isStartingPointValid(String startingPoint) {
         String pattern = "\\d{1,2}[a-zA-Z]";
-        boolean x = tileSelection.matches(pattern);
-        if(!x)
+        boolean x = startingPoint.matches(pattern);
+        if (!x)
             return false;
+
+        boolean vertical = isVertical(startingPoint);
+        Location location = getLocation(vertical, startingPoint);
+        int i = location.numberPart;
+        int j = location.charPart;
+        if (i > board.getSize()-1 || j > board.getSize()-1) {
+            return false;
+        }
+
 
         return true;
     }
@@ -143,6 +153,7 @@ public class Player {
                 System.out.println("Enter your desired character:" + " ");
                 String wildCardValue = scanner.next();
                 playerRack.Rack[wcr.index].character = wildCardValue;
+                System.out.println(playerRack.toString());
             } else
                 break;
             wcr = wildCardExists();
@@ -157,7 +168,7 @@ public class Player {
         boolean isTileSelectionValid = isTileSelectionValid(tileSelection);
         boolean isTileStartingPointValid = isStartingPointValid(startingPoint);
         if (!isTileStartingPointValid) {
-            System.out.println("You can not paly with this starting point : " + startingPoint);
+            System.out.println("You can not play with this starting point : " + startingPoint);
             return null;
         }
         if (!isTileSelectionValid) {
@@ -168,8 +179,8 @@ public class Player {
 
         Location location = getLocation(vertical, startingPoint);
 
-        int i = Integer.parseInt(location.numberPart);
-        int j = get(location.charPart.charAt(0));
+        int i = location.numberPart;
+        int j = location.charPart;
 
         boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, i, j, startingPoint);
         if (collidesWithBoardEdge) {
