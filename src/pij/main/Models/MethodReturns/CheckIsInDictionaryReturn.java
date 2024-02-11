@@ -1,8 +1,8 @@
-package pij.main;
+package pij.main.Models.MethodReturns;
 
 public class CheckIsInDictionaryReturn {
-    String acceptedWord;
-    boolean isInDictionary;
+    public String acceptedWord;
+    public boolean isInDictionary;
 
     public CheckIsInDictionaryReturn(String acceptedWord, boolean checkIsInDictionary) {
         this.acceptedWord = acceptedWord;

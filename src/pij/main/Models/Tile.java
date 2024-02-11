@@ -1,8 +1,10 @@
-package pij.main;
+package pij.main.Models;
+
+import pij.main.Utils.StringHelper;
 
 public class Tile {
-    String character;
-    int value;
+    public String character;
+    public int value;
     public Tile(String character, int value)
     {
         this.character = character;

@@ -1,4 +1,4 @@
-package pij.main;
+package pij.main.Models;
 
 public class Location {
     public int numberPart;

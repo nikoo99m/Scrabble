@@ -1,4 +1,4 @@
-package pij.main;
+package pij.main.Models;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
-package pij.main.Squares;
+package pij.main.Models.Squares;
 
-import pij.main.StringHelper;
+import pij.main.Utils.StringHelper;
 
 public class BracketSquare extends Square {
 

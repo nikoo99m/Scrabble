@@ -1,6 +1,6 @@
-package pij.main;
+package pij.main.Models;
 
-import java.lang.reflect.Array;
+import pij.main.Models.Tile;
 
 public class TileRack {
     public Tile[] Rack = new Tile[7];
