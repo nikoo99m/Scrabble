@@ -1,22 +1,32 @@
 package pij.main;
 
 
+import pij.main.models.*;
+import pij.main.models.MethodReturns.MoveReturn;
+import pij.main.services.Board;
+import pij.main.services.Player;
+import pij.main.utils.BoardHelper;
+import pij.main.utils.ScoreHelper;
+
 public class Main {
 
     public static void main(String[] args) {
         // Replace this with the actual path to your input file
+//        String filePath = "resources\\board.txt";
         String filePath = "resources\\defaultBoard.txt";
+
 
         // Test the functionality
         test(filePath);
     }
 
     public static void test(String filePath) {
-        DefaultBoard defaultBoard = new DefaultBoard();
+//        Boad defaultBoard = new DefaultBoard();
 
         // Retrieve the filled Board object from testt method
-        Board board = defaultBoard.testt(filePath);
-
+        Board board = BoardHelper.loadBoardFromFile(filePath);
+        System.out.println(board.getStartingPoint().i);
+        System.out.println(board.getStartingPoint().j);
         // Print the filled board matrix directly
         board.prettyPrint();
         TileBag bag = new TileBag();
@@ -27,9 +37,11 @@ public class Main {
             p.fillTileRack();
 
             MoveReturn move = p.move();
+            if (move == null)
+                continue;
             isFirstMove = false;
             int score = ScoreHelper.CalculatingplayerScore(board, move);
-            p.score += score;
+            //p.score += score;
             System.out.println(score);
             board.prettyPrint();
         }
