@@ -1,9 +1,10 @@
-package pij.main;
+package pij.main.Services;
 
-import pij.main.Squares.BracketSquare;
-import pij.main.Squares.CurlySquare;
-import pij.main.Squares.Square;
-import pij.main.Squares.StandardSquare;
+import pij.main.Models.Squares.BracketSquare;
+import pij.main.Models.Squares.CurlySquare;
+import pij.main.Models.Squares.Square;
+import pij.main.Models.Squares.StandardSquare;
+import pij.main.Utils.StringHelper;
 
 import java.util.Random;
 

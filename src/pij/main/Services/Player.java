@@ -1,4 +1,9 @@
-package pij.main;
+package pij.main.Services;
+
+import pij.main.Models.*;
+import pij.main.Models.MethodReturns.CheckIsInDictionaryReturn;
+import pij.main.Models.MethodReturns.MoveReturn;
+import pij.main.Models.MethodReturns.WildCardReturn;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
