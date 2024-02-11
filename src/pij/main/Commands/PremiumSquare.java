@@ -1,9 +1,9 @@
 package pij.main.Commands;
 
-import pij.main.Board;
+import pij.main.Services.Board;
 import pij.main.Exceptions.InvalidInputFormatAsPremiumFieldException;
 import pij.main.Exceptions.OutOfRangeBoardValueException;
-import pij.main.Squares.Square;
+import pij.main.Models.Squares.Square;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

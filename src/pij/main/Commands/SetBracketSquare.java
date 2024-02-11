@@ -1,8 +1,8 @@
 package pij.main.Commands;
 
-import pij.main.Board;
-import pij.main.Squares.BracketSquare;
-import pij.main.Squares.Square;
+import pij.main.Services.Board;
+import pij.main.Models.Squares.BracketSquare;
+import pij.main.Models.Squares.Square;
 
 public class SetBracketSquare extends PremiumSquare
 {
