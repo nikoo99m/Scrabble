@@ -20,7 +20,11 @@ public class TileRack {
         String m = "";
         for(int i = 0 ; i < Rack.length ; i++){
             String n = Rack[i].character;
-            m = m + n;
+            int x = Rack[i].value;
+            m = m + "[" + n + x + "]";
+
+            if(i + 1 != Rack.length)
+                m += ", ";
         }
         return m;
     }
