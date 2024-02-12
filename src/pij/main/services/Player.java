@@ -33,14 +33,6 @@ public class Player {
         playerRack = new TileRack();
         this.game = game;
         this.name = name;
-
-        fillTileRack();
-    }
-
-    public void fillTileRack() {
-        while (playerRack.add(tileBag.randomPop()))
-            ;
-        //playerRack.Rack[0].character = "_";
     }
 
     public WildCardReturn wildCardExists() {

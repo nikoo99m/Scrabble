@@ -5,18 +5,17 @@ import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.Squares.BracketSquare;
 import pij.main.models.Squares.Square;
 import pij.main.models.Squares.StandardSquare;
+import pij.main.services.Player;
 
 public class ScoreHelper {
 
-
-
-    public static int CalculatingplayerScore(Board board, MoveReturn moveReturn) {
+    public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, Player player) {
 
         int score = 0;
         if (moveReturn.result == MoveReturn.MoveResult.Done) {
-        int i = moveReturn.details.i;
-        int j = moveReturn.details.j;
-        int premiumWordMultiplier = 1;
+            int i = moveReturn.details.i;
+            int j = moveReturn.details.j;
+            int premiumWordMultiplier = 1;
             for (int r = 0; r < moveReturn.details.word.length(); r++) {
                 Square square = board.letter[i][j];
                 if (square instanceof BracketSquare) {
@@ -40,15 +39,7 @@ public class ScoreHelper {
             score *= premiumWordMultiplier;
         }
 
-//        for (int e = 0; e < moveReturn.word.length(); e++) {
-//            char character = moveReturn.word.charAt(e);
-//            for (int b = 0; b < tileBag.letters.length; b++) {
-//                if (tileBag.letters[b] == character) {
-//                    score += tileBag.values[b];
-//                }
-//            }
-//        }
+        player.setScore(score);
 
-        return score;
     }
 }

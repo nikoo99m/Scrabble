@@ -13,11 +13,12 @@ public class Game {
     ArrayList<Player> players = new ArrayList<Player>();
     Board board;
     public boolean isFirstMove = true;
+    private TileBag bag;
     public Game()
     {
         String filePath = "resources\\defaultBoard.txt";
         board = BoardHelper.loadBoardFromFile(filePath);
-        TileBag bag = new TileBag();
+        bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
         players.add(new Player(bag, board, dictionary, this, "noobak"));
@@ -32,19 +33,22 @@ public class Game {
         {
             for (Player player : players) {
                 System.out.println("It is " + player.name + " turn.");
-                player.fillTileRack();
 
+                fillTileRack(player, bag);
                 MoveReturn moveReturn = processPlayerMove(player);
+                ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
 
-                int score = ScoreHelper.CalculatingplayerScore(board, moveReturn);
-                player.setScore(score);
                 System.out.println("player " + player.name + " score is:" + player.getScore());
 
                 board.prettyPrint();
             }
         }
     }
-
+    public void fillTileRack(Player player, TileBag bag) {
+        while (player.playerRack.add(bag.randomPop()))
+            ;
+        //playerRack.Rack[0].character = "_";
+    }
     private static MoveReturn processPlayerMove(Player player) {
         MoveReturn moveReturn = player.move();
         while(moveReturn.result == MoveReturn.MoveResult.Failed){
