@@ -13,11 +13,11 @@ public class ScoreHelper {
     public static int CalculatingplayerScore(Board board, MoveReturn moveReturn) {
 
         int score = 0;
-        int i = moveReturn.i;
-        int j = moveReturn.j;
+        int i = moveReturn.details.i;
+        int j = moveReturn.details.j;
         int premiumWordMultiplier = 1;
-        if (moveReturn.move == true) {
-            for (int r = 0; r < moveReturn.word.length(); r++) {
+        if (moveReturn.result == MoveReturn.MoveResult.Done) {
+            for (int r = 0; r < moveReturn.details.word.length(); r++) {
                 Square square = board.letter[i][j];
                 if (square instanceof BracketSquare) {
                     int value = square.tile.value * square.multiplier;
@@ -30,7 +30,7 @@ public class ScoreHelper {
                     int value = square.tile.value;
                     score += value;
                 }
-                if (moveReturn.vertical) {
+                if (moveReturn.details.vertical) {
                     i++;
                 } else {
                     j++;

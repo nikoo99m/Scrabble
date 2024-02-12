@@ -33,10 +33,13 @@ public class Game {
             for (Player player : players) {
                 System.out.println("It is " + player.name + " turn.");
                 player.fillTileRack();
+
                 MoveReturn moveReturn = player.move();
-                while(moveReturn == null || !moveReturn.move){
+                while(moveReturn.result == MoveReturn.MoveResult.Failed){
                     moveReturn = player.move();
                 }
+                if(moveReturn.result == MoveReturn.MoveResult.Pass)
+                    System.out.println("player "+ player.name + " passes the turn.");
 
                 int score = ScoreHelper.CalculatingplayerScore(board, moveReturn);
                 player.setScore(score);

@@ -18,8 +18,13 @@ public class Player {
     public int score;
     public String name;
 
-    public void setScore(int score){ this.score += score;}
-    public  int getScore(){return score;}
+    public void setScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
+    }
 
     public Player(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
         this.tileBag = tileBag;
@@ -150,6 +155,11 @@ public class Player {
         System.out.println("Please enter your move in the format: \"word,square\" (without the quotes)");
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
+
+        if (moveAsString.equals(",")){
+            return new MoveReturn(MoveReturn.MoveResult.Pass);
+        }
+
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
         String startingPoint = parts[1];
@@ -157,11 +167,11 @@ public class Player {
         boolean isTileStartingPointValid = isStartingPointValid(startingPoint);
         if (!isTileStartingPointValid) {
             System.out.println("You can not play with this starting point : " + startingPoint);
-            return null;
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
         }
         if (!isTileSelectionValid) {
             System.out.println("With tiles " + playerRack + " you cannot play word " + moveAsString);
-            return null;
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
         }
         boolean vertical = isVertical(startingPoint);
 
@@ -173,13 +183,13 @@ public class Player {
         boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, i, j, startingPoint);
         if (collidesWithBoardEdge) {
             System.out.println("Invalid move detected. Selected move results in a tile placement out of bounds of the board.");
-            return null;
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
         }
 
         CheckIsInDictionaryReturn checkInDictionaryResult = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
         if (!checkInDictionaryResult.isInDictionary) {
             System.out.println("Chosen word is not in dictionary.");
-            return null;
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
         }
 
         boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
@@ -190,7 +200,8 @@ public class Player {
             isMoved = true;
             game.isFirstMove = false;
         }
-        return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, isMoved, vertical);
+
+        return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, MoveReturn.MoveResult.Done, vertical);
     }
 
     private void setTile(String tileSelection, int i, int j, boolean vertical) {
