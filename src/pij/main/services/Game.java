@@ -34,12 +34,7 @@ public class Game {
                 System.out.println("It is " + player.name + " turn.");
                 player.fillTileRack();
 
-                MoveReturn moveReturn = player.move();
-                while(moveReturn.result == MoveReturn.MoveResult.Failed){
-                    moveReturn = player.move();
-                }
-                if(moveReturn.result == MoveReturn.MoveResult.Pass)
-                    System.out.println("player "+ player.name + " passes the turn.");
+                MoveReturn moveReturn = processPlayerMove(player);
 
                 int score = ScoreHelper.CalculatingplayerScore(board, moveReturn);
                 player.setScore(score);
@@ -48,5 +43,15 @@ public class Game {
                 board.prettyPrint();
             }
         }
+    }
+
+    private static MoveReturn processPlayerMove(Player player) {
+        MoveReturn moveReturn = player.move();
+        while(moveReturn.result == MoveReturn.MoveResult.Failed){
+            moveReturn = player.move();
+        }
+        if(moveReturn.result == MoveReturn.MoveResult.Pass)
+            System.out.println("player "+ player.name + " passes the turn.");
+        return moveReturn;
     }
 }
