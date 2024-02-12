@@ -44,7 +44,23 @@ public class Game {
             }
         }
     }
-    public void fillTileRack(Player player, TileBag bag) {
+
+    private boolean hasGameEnded()
+    {
+        boolean isRackEmptyForAPlayer = false;
+        for (Player player: players) {
+            if(player.getRack().isEmpty())
+                isRackEmptyForAPlayer = true;
+        }
+
+        if(bag.isEmpty() && isRackEmptyForAPlayer)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    private void fillTileRack(Player player, TileBag bag) {
         while (player.playerRack.add(bag.randomPop()))
             ;
         //playerRack.Rack[0].character = "_";
