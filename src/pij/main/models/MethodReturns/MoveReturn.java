@@ -6,7 +6,6 @@ public class MoveReturn {
     public MoveDetails details;
 
     public MoveReturn(String word, int i, int j, MoveResult result, boolean vertical) {
-
         this.details = new MoveDetails(word, i, j, vertical);
         this.result = result;
     }
@@ -31,6 +30,9 @@ public class MoveReturn {
             this.i = i;
             this.j = j;
             this.vertical = vertical;
+        }
+        public MoveDetails(String word) {
+            this.word = word;
         }
     }
 }
