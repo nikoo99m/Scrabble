@@ -200,6 +200,8 @@ public class Player {
             isMoved = true;
             game.isFirstMove = false;
         }
+        else
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
 
         return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, MoveReturn.MoveResult.Done, vertical);
     }
