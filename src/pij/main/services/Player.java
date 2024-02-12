@@ -5,6 +5,7 @@ import pij.main.models.MethodReturns.CheckIsInDictionaryReturn;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -134,10 +135,19 @@ public class Player {
         while (wcr.isWildCard) {
             System.out.println("Do you want to use the wildCard?");
             System.out.println("If you want just say true otherwise false.");
+            boolean answer = false;
+            while (true) {
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    answer = scanner.nextBoolean();
+                    System.out.println("You entered: " + answer);
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input, please enter true/false :");
+                }
+            }
             Scanner scanner = new Scanner(System.in);
-            boolean answer = scanner.nextBoolean();
 
-            System.out.println("You entered: " + answer);
             if (answer) {
                 System.out.println("Enter your desired character:" + " ");
                 String wildCardValue = scanner.next();

@@ -82,7 +82,7 @@ public class Game {
     private void fillTileRack(Player player, TileBag bag) {
         while (player.playerRack.add(bag.randomPop()))
             ;
-        //playerRack.Rack[0].character = "_";
+        //player.playerRack.Rack[0].character = "_";
     }
 
     private MoveReturn processPlayerMove(Player player) {
