@@ -14,16 +14,22 @@ public class Player {
     public TileBag tileBag;
     public Board board;
     public Dictionary dictionary;
-    private boolean isFirstMove;
+    private Game game;
     public int score;
+    public String name;
 
-    public Player(TileBag tileBag, Board board, Dictionary dictionary, boolean isFirstMove) {
+    public void setScore(int score){ this.score += score;}
+    public  int getScore(){return score;}
+
+    public Player(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
         this.tileBag = tileBag;
         this.board = board;
         this.dictionary = dictionary;
         playerRack = new TileRack();
-        this.isFirstMove = isFirstMove;
+        this.game = game;
+        this.name = name;
 
+        fillTileRack();
     }
 
     public void fillTileRack() {
@@ -182,7 +188,7 @@ public class Player {
             //if (checkInDictionaryResult.isInDictionary) {
             setTile(tileSelection, i, j, vertical);
             isMoved = true;
-            isFirstMove = false;
+            game.isFirstMove = false;
         }
         return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, isMoved, vertical);
     }
@@ -237,7 +243,7 @@ public class Player {
     private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
 
         for (int k = 0; k < tileSelection.length() + 1; k++) {
-            if (isFirstMove) {
+            if (game.isFirstMove) {
                 Location boardCentre = board.getStartingPoint();
                 if (i == boardCentre.i && j == boardCentre.j)
                     return true;
@@ -251,7 +257,7 @@ public class Player {
                 j++;
             }
         }
-        if (isFirstMove)
+        if (game.isFirstMove)
             System.out.println("Selected location does not overlap with the centre of board.");
         else
             System.out.println("Selected word and starting combination does not overlap with an existing word on the board.");
