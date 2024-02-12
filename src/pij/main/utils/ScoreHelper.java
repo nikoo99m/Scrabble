@@ -13,10 +13,10 @@ public class ScoreHelper {
     public static int CalculatingplayerScore(Board board, MoveReturn moveReturn) {
 
         int score = 0;
+        if (moveReturn.result == MoveReturn.MoveResult.Done) {
         int i = moveReturn.details.i;
         int j = moveReturn.details.j;
         int premiumWordMultiplier = 1;
-        if (moveReturn.result == MoveReturn.MoveResult.Done) {
             for (int r = 0; r < moveReturn.details.word.length(); r++) {
                 Square square = board.letter[i][j];
                 if (square instanceof BracketSquare) {
