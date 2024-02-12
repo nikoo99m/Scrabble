@@ -22,6 +22,10 @@ public class Player {
         this.score += score;
     }
 
+    public TileRack getRack() {
+        return playerRack;
+    }
+
     public int getScore() {
         return score;
     }
@@ -148,7 +152,7 @@ public class Player {
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
 
-        if (moveAsString.equals(",")){
+        if (moveAsString.equals(",")) {
             return new MoveReturn(MoveReturn.MoveResult.Pass);
         }
 
@@ -191,8 +195,7 @@ public class Player {
             setTile(tileSelection, i, j, vertical);
             isMoved = true;
             game.isFirstMove = false;
-        }
-        else
+        } else
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
         return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, MoveReturn.MoveResult.Done, vertical);

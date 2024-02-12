@@ -27,6 +27,11 @@ public class TileBag {
         }
     }
 
+    public boolean isEmpty()
+    {
+        return Bag.isEmpty();
+    }
+
     // Perform random pop
     public Tile randomPop() {
         if (Bag.isEmpty()) {
