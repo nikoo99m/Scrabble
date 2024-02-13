@@ -163,7 +163,7 @@ public class Player {
     }
 
     private static boolean validateMoveInput(String moveAsString) {
-        String pattern = "[a-zA-Z]+,(\\d{1,2}[a-zA-Z])|([a-zA-Z]\\d{1,2})";
+        String pattern = "[a-zA-Z]+,((\\d{1,2}[a-zA-Z])|([a-zA-Z]\\d{1,2}))";
         if(!moveAsString.matches(pattern)) {
             System.out.println("Invalid move format. Please enter your move in the format: \"word,square\" (without the quotes)\n" +
                     "For example, for suitable tile rack and board configuration, a downward move\n" +
