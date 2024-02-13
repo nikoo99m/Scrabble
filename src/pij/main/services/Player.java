@@ -135,6 +135,16 @@ public class Player {
             return new MoveReturn(MoveReturn.MoveResult.Pass);
         }
 
+        String pattern = "[a-zA-Z]+,\\d{1,2}[a-zA-Z]|[a-zA-Z]\\d{1,2}";
+        if(!moveAsString.matches(pattern)) {
+            System.out.println("Invalid move format. Please enter your move in the format: \"word,square\" (without the quotes)\n" +
+                    "For example, for suitable tile rack and board configuration, a downward move\n" +
+                    "could be \"HI,f4\" and a rightward move could be \"HI,4f\".\n" +
+                    "In the word, upper-case letters are standard tiles\n" +
+                    "and lower-case letters are wildcards.\n" +
+                    "Entering \",\" passes the turn.");
+            return new MoveReturn(MoveReturn.MoveResult.Failed);
+        }
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
         String startingPoint = parts[1];
