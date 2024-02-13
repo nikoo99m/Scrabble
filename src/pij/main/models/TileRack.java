@@ -25,10 +25,13 @@ public class TileRack {
     public String toString() {
         String m = "";
         for(int i = 0 ; i < Rack.length ; i++){
-            String n = Rack[i].character;
-            int x = Rack[i].value;
-            m = m + "[" + n + x + "]";
-
+            if(Rack[i] != null) {
+                String n = Rack[i].character;
+                int x = Rack[i].value;
+                m = m + "[" + n + x + "]";
+            }
+            else
+                m = m + "[]";
             if(i + 1 != Rack.length)
                 m += ", ";
         }

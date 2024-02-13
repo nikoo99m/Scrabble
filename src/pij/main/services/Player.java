@@ -40,7 +40,7 @@ public class Player {
 
     public WildCardReturn wildCardExists() {
         for (int i = 0; i < playerRack.Rack.length; i++) {
-            if (playerRack.Rack[i].character.equals("_")) {
+            if (playerRack.Rack[i] != null && playerRack.Rack[i].character.equals("_")) {
                 return new WildCardReturn(i, true);
             }
         }
@@ -96,6 +96,8 @@ public class Player {
         for (int j = 0; j < tileSelection.length(); j++) {
             String charr = tileSelection.charAt(j) + "";
             for (int i = 0; i < playerRack.Rack.length; i++) {
+                if (playerRack.Rack[i] == null )
+                    continue;
                 String rackChar = playerRack.Rack[i].character;
                 if (charr.equals(rackChar)) {
                     break;
@@ -128,13 +130,14 @@ public class Player {
     public MoveReturn move() {
 
         String moveAsString = getUserInput();
+        if (moveAsString.equals(",")) {
+            return new MoveReturn(MoveReturn.MoveResult.Pass);
+        }
+
         boolean isUserInputValid = validateMoveInput(moveAsString);
         if (!isUserInputValid)
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
-        if (moveAsString.equals(",")) {
-            return new MoveReturn(MoveReturn.MoveResult.Pass);
-        }
 
         Result result = getResult(moveAsString);
 
