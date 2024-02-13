@@ -1,11 +1,9 @@
 package pij.main.services;
 
 import pij.main.models.*;
-import pij.main.models.MethodReturns.CheckIsInDictionaryReturn;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,7 +92,7 @@ public class Player {
         throw new RuntimeException("Could not find player's choice in Rack.");
     }
 
-    public boolean isTileSelectionValid(String tileSelection) {
+    public boolean checkTileSelectionIsValid(String tileSelection) {
         for (int j = 0; j < tileSelection.length(); j++) {
             String charr = tileSelection.charAt(j) + "";
             for (int i = 0; i < playerRack.Rack.length; i++) {
@@ -109,7 +107,7 @@ public class Player {
         return true;
     }
 
-    public boolean isStartingPointValid(String startingPoint) {
+    public boolean checkStartingPointIsValid(String startingPoint) {
         String pattern = "\\d{1,2}[a-zA-Z]|[a-zA-Z]\\d{1,2}";
         boolean x = startingPoint.matches(pattern);
         if (!x)
@@ -127,36 +125,7 @@ public class Player {
         return true;
     }
 
-
     public MoveReturn move() {
-
-        WildCardReturn wcr = wildCardExists();
-        System.out.println(playerRack.toString());
-        while (wcr.isWildCard) {
-            System.out.println("Do you want to use the wildCard?");
-            System.out.println("If you want just say true otherwise false.");
-            boolean answer = false;
-            while (true) {
-                try {
-                    Scanner scanner = new Scanner(System.in);
-                    answer = scanner.nextBoolean();
-                    System.out.println("You entered: " + answer);
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input, please enter true/false :");
-                }
-            }
-            Scanner scanner = new Scanner(System.in);
-
-            if (answer) {
-                System.out.println("Enter your desired character:" + " ");
-                String wildCardValue = scanner.next();
-                playerRack.Rack[wcr.index].character = wildCardValue;
-                System.out.println(playerRack.toString());
-            } else
-                break;
-            wcr = wildCardExists();
-        }
 
         System.out.println("Please enter your move in the format: \"word,square\" (without the quotes)");
         Scanner scan = new Scanner(System.in);
@@ -169,50 +138,57 @@ public class Player {
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
         String startingPoint = parts[1];
-        boolean isTileSelectionValid = isTileSelectionValid(tileSelection);
-        boolean isTileStartingPointValid = isStartingPointValid(startingPoint);
-        if (!isTileStartingPointValid) {
-            System.out.println("You can not play with this starting point : " + startingPoint);
-            return new MoveReturn(MoveReturn.MoveResult.Failed);
-        }
-        if (!isTileSelectionValid) {
-            System.out.println("With tiles " + playerRack + " you cannot play word " + moveAsString);
-            return new MoveReturn(MoveReturn.MoveResult.Failed);
-        }
-        boolean vertical = isVertical(startingPoint);
 
+        boolean vertical = isVertical(startingPoint);
         Location location = getLocation(vertical, startingPoint);
 
-        int i = location.i;
-        int j = location.j;
-
-        boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, i, j, startingPoint);
-        if (collidesWithBoardEdge) {
-            System.out.println("Invalid move detected. Selected move results in a tile placement out of bounds of the board.");
-            return new MoveReturn(MoveReturn.MoveResult.Failed);
-        }
-
-        CheckIsInDictionaryReturn checkInDictionaryResult = ckeckIsInDictionary(i, j, tileSelection, startingPoint);
-        if (!checkInDictionaryResult.isInDictionary) {
-            System.out.println("Chosen word is not in dictionary.");
-            return new MoveReturn(MoveReturn.MoveResult.Failed);
-        }
-
-        boolean overlapsOnBoard = checkOverlapsExistingOnBoard(tileSelection, i, j, startingPoint);
-        boolean isMoved = false;
-        if (checkInDictionaryResult.isInDictionary && overlapsOnBoard) {
-            //if (checkInDictionaryResult.isInDictionary) {
-            setTile(tileSelection, i, j, vertical);
-            isMoved = true;
-            game.isFirstMove = false;
-        } else
+        if (!checkMoveIsValid(tileSelection, startingPoint, moveAsString, location))
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
-        return new MoveReturn(checkInDictionaryResult.acceptedWord, i, j, MoveReturn.MoveResult.Done, vertical);
+        String acceptedWord = getAcceptedWord(location, tileSelection, startingPoint);
+
+        setTile(tileSelection, location, vertical);
+
+        return new MoveReturn(acceptedWord, location, MoveReturn.MoveResult.Done, vertical, startingPoint);
     }
 
-    private void setTile(String tileSelection, int i, int j, boolean vertical) {
+
+    private boolean checkMoveIsValid(String tileSelection, String startingPoint, String moveAsString, Location location) {
+        boolean isTileStartingPointValid = checkStartingPointIsValid(startingPoint);
+        if (!isTileStartingPointValid) {
+            System.out.println("You can not play with this starting point : " + startingPoint);
+            return false;
+        }
+
+        boolean isTileSelectionValid = checkTileSelectionIsValid(tileSelection);
+        if (!isTileSelectionValid) {
+            System.out.println("With tiles " + playerRack + " you cannot play word " + moveAsString);
+            return false;
+        }
+
+        boolean collidesWithBoardEdge = checkCollidesWithBoardEdge(tileSelection, location, startingPoint);
+        if (collidesWithBoardEdge) {
+            System.out.println("Invalid move detected. Selected move results in a tile placement out of bounds of the board.");
+            return false;
+        }
+
+        boolean overlapsOnBoard = checkWordPlacementOverlapsExistingOnBoard(tileSelection, location, startingPoint);
+        if (!overlapsOnBoard)
+            return false;
+
+        boolean isInDictionary = ckeckWordChoiceIsInDictionary(location, tileSelection, startingPoint);
+        if (!isInDictionary) {
+            System.out.println("Chosen word is not in dictionary.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void setTile(String tileSelection, Location location, boolean vertical) {
         int m = 0;
+        int i = location.i;
+        int j = location.j;
         while (m < tileSelection.length()) {
             String currentCharacterFromSelection = String.valueOf(tileSelection.charAt(m));
             if (board.letter[i][j].tile == null) {
@@ -233,14 +209,21 @@ public class Player {
         return board.letter[i][j].tile == null;
     }
 
-    private CheckIsInDictionaryReturn ckeckIsInDictionary(int i, int j, String tileSelection, String
+    private boolean ckeckWordChoiceIsInDictionary(Location location, String tileSelection, String
             startingPoint) {
+        String acceptedWord = getAcceptedWord(location, tileSelection, startingPoint);
+
+        return dictionary.exists(acceptedWord);
+    }
+
+    private String getAcceptedWord(Location location, String tileSelection, String startingPoint) {
         String acceptedWord = "";
         boolean isVertical = isVertical(startingPoint);
         int n = 0;
+        int i = location.i;
+        int j = location.j;
+
         while (n < tileSelection.length() || !nextTileIsEmpty(isVertical, i, j)) {
-            // }
-            // for (int n = 0; n < tileSelection.length(); n++) {
             if (board.letter[i][j].tile == null) {
                 acceptedWord += tileSelection.charAt(n);
                 n++;
@@ -253,12 +236,13 @@ public class Player {
                 j++;
             }
         }
-        if (dictionary.exists(acceptedWord))
-            return new CheckIsInDictionaryReturn(acceptedWord, true);
-        return new CheckIsInDictionaryReturn("", false);
+        return acceptedWord;
     }
 
-    private boolean checkOverlapsExistingOnBoard(String tileSelection, int i, int j, String startingPoint) {
+    private boolean checkWordPlacementOverlapsExistingOnBoard(String tileSelection, Location location, String startingPoint) {
+
+        int i = location.i;
+        int j = location.j;
 
         for (int k = 0; k < tileSelection.length() + 1; k++) {
             if (game.isFirstMove) {
@@ -283,10 +267,11 @@ public class Player {
         return false;
     }
 
-    private boolean checkCollidesWithBoardEdge(String tileSelection, int i, int j, String startingPoint) {
+    private boolean checkCollidesWithBoardEdge(String tileSelection, Location location, String startingPoint) {
 
         int boardSize = board.getSize();
-
+        int i = location.i;
+        int j = location.j;
         for (int k = 0; k < tileSelection.length() + 1; k++) {
             if (i > boardSize - 1 || j > boardSize - 1)
                 return true;

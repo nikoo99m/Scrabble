@@ -1,12 +1,14 @@
 package pij.main.models.MethodReturns;
 
+import pij.main.models.Location;
+
 public class MoveReturn {
 
     public MoveResult result;
     public MoveDetails details;
 
-    public MoveReturn(String word, int i, int j, MoveResult result, boolean vertical) {
-        this.details = new MoveDetails(word, i, j, vertical);
+    public MoveReturn(String word, Location location, MoveResult result, boolean vertical, String position) {
+        this.details = new MoveDetails(word, location, vertical, position);
         this.result = result;
     }
     public MoveReturn(MoveResult result) {
@@ -21,15 +23,15 @@ public class MoveReturn {
     }
     public class MoveDetails {
         public String word;
-        public int i;
-        public int j;
+        public String position;
+        public Location location;
         public boolean vertical;
 
-        public MoveDetails(String word, int i, int j, boolean vertical) {
+        public MoveDetails(String word, Location location, boolean vertical, String position) {
             this.word = word;
-            this.i = i;
-            this.j = j;
+            this.location = location;
             this.vertical = vertical;
+            this.position = position;
         }
         public MoveDetails(String word) {
             this.word = word;

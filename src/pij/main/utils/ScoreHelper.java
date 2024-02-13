@@ -13,8 +13,8 @@ public class ScoreHelper {
 
         int score = 0;
         if (moveReturn.result == MoveReturn.MoveResult.Done) {
-            int i = moveReturn.details.i;
-            int j = moveReturn.details.j;
+            int i = moveReturn.details.location.i;
+            int j = moveReturn.details.location.j;
             int premiumWordMultiplier = 1;
             for (int r = 0; r < moveReturn.details.word.length(); r++) {
                 Square square = board.letter[i][j];

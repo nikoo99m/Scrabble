@@ -2,11 +2,14 @@ package pij.main.services;
 
 import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;
+import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Game {
 
@@ -31,9 +34,11 @@ public class Game {
         board.prettyPrint();
         while (true) {
             for (Player player : players) {
-                System.out.println("It is " + player.name + " turn.");
+                System.out.println("It is " + player.name + " turn Your tiles:");
 
                 fillTileRack(player, bag);
+                setWildCardIfExists(player);
+
                 MoveReturn moveReturn = processPlayerMove(player);
                 ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
 
@@ -95,9 +100,45 @@ public class Game {
         if (moveReturn.result == MoveReturn.MoveResult.Pass) {
             System.out.println("player " + player.name + " passes the turn.");
         }
+        else
+        {
+            System.out.println("The move is: Word: " + moveReturn.details.word +
+                    " at position " + moveReturn.details.position);
+            if (isFirstMove)
+                isFirstMove = false;
+        }
 
         moves.add(moveReturn.result);
 
         return moveReturn;
+    }
+    private void setWildCardIfExists(Player player) {
+        WildCardReturn wcr = player.wildCardExists();
+        System.out.println(player.getRack().toString());
+        while (wcr.isWildCard) {
+            System.out.println("Do you want to use the wildCard?");
+            System.out.println("If you want just say true otherwise false.");
+            boolean answer = false;
+            while (true) {
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    answer = scanner.nextBoolean();
+                    System.out.println("You entered: " + answer);
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input, please enter true/false :");
+                }
+            }
+            Scanner scanner = new Scanner(System.in);
+
+            if (answer) {
+                System.out.println("Enter your desired character:" + " ");
+                String wildCardValue = scanner.next();
+                player.getRack().Rack[wcr.index].character = wildCardValue;
+                System.out.println(player.getRack().toString());
+            } else
+                break;
+            wcr = player.wildCardExists();
+        }
     }
 }
