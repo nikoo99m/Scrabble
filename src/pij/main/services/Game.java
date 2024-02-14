@@ -7,9 +7,7 @@ import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
 
@@ -61,8 +59,14 @@ public class Game {
         if (bag.isEmpty() && isRackEmptyForAPlayer) {
             System.out.println("Game has ended since tile bag is empty and a player has an empty rack.");
             ScoreHelper.updateScoresAtTheEndOfGame(players);
-            for (Player player : players)
-               System.out.println(player.name + "'s final score is: " + player.getScore());
+
+            for (Player player : players) {
+                System.out.println(player.name + "'s final score is: " + player.getScore());
+            }
+
+            Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
+            winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
+
             return true;
         }
 
@@ -144,4 +148,5 @@ public class Game {
             wcr = player.wildCardExists();
         }
     }
+
 }
