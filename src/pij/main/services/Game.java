@@ -44,7 +44,7 @@ public class Game {
 
                 board.prettyPrint();
 
-                if(hasGameEnded())
+                if (hasGameEnded())
                     return;
             }
         }
@@ -64,9 +64,13 @@ public class Game {
                 System.out.println(player.name + "'s final score is: " + player.getScore());
             }
 
-            Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
-            winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
-
+            boolean allSame = players.stream().allMatch(x -> x.equals(players.get(0)));
+            if (allSame)
+                System.out.println("Players have tied, it's a draw!");
+            else {
+                Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
+                winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
+            }
             return true;
         }
 
@@ -106,9 +110,7 @@ public class Game {
 
         if (moveReturn.result == MoveReturn.MoveResult.Pass) {
             System.out.println("player " + player.name + " passes the turn.");
-        }
-        else
-        {
+        } else {
             System.out.println("The move is: Word: " + moveReturn.details.word +
                     " at position " + moveReturn.details.position);
             if (isFirstMove)
@@ -119,6 +121,7 @@ public class Game {
 
         return moveReturn;
     }
+
     private void setWildCardIfExists(Player player) {
         WildCardReturn wcr = player.wildCardExists();
         System.out.println(player.getRack().toString());
