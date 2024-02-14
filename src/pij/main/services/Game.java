@@ -51,32 +51,15 @@ public class Game {
     }
 
     private boolean hasGameEnded() {
-        boolean isRackEmptyForAPlayer = false;
-        for (Player player : players) {
-            if (player.getRack().isEmpty())
-                isRackEmptyForAPlayer = true;
-        }
-        if (bag.isEmpty() && isRackEmptyForAPlayer) {
+        boolean aPlayerHasAnEmptyRack = players.stream()
+                .anyMatch(player -> player.getRack().isEmpty());
+
+        if (bag.isEmpty() && aPlayerHasAnEmptyRack) {
             System.out.println("Game has ended since tile bag is empty and a player has an empty rack.");
             ScoreHelper.updateScoresAtTheEndOfGame(players);
-
-            for (Player player : players) {
-                System.out.println(player.name + "'s final score is: " + player.getScore());
-            }
-
-            boolean allSame = players.stream().allMatch(x -> x.equals(players.get(0)));
-            if (allSame)
-                System.out.println("Players have tied, it's a draw!");
-            else {
-                Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
-                winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
-            }
+            accounceGameResult();
             return true;
         }
-
-//        boolean playersHavePassedTwice = moves.stream()
-//            .skip(Math.max(0, moves.size() - 4))
-//            .allMatch(element -> element == MoveReturn.MoveResult.Pass);
 
         boolean playersHavePassedTwice = true;
         if (moves.size() >= 4) {
@@ -93,6 +76,20 @@ public class Game {
         }
 
         return false;
+    }
+
+    private void accounceGameResult() {
+        for (Player player : players) {
+            System.out.println(player.name + "'s final score is: " + player.getScore());
+        }
+
+        boolean allSame = players.stream().allMatch(x -> x.equals(players.get(0)));
+        if (allSame)
+            System.out.println("Players have tied, it's a draw!");
+        else {
+            Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
+            winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
+        }
     }
 
     private void fillTileRack(Player player, TileBag bag) {
