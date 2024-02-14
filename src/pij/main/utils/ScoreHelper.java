@@ -7,6 +7,8 @@ import pij.main.models.Squares.Square;
 import pij.main.models.Squares.StandardSquare;
 import pij.main.services.Player;
 
+import java.util.ArrayList;
+
 public class ScoreHelper {
 
     public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, Player player) {
@@ -42,4 +44,18 @@ public class ScoreHelper {
         player.setScore(score);
 
     }
+
+    public static void updateScoresAtTheEndOfGame(ArrayList<Player> players) {
+        for (Player player : players) {
+            int penalty = 0;
+            if (!player.playerRack.isEmpty()) {
+                for (int i = 0; i < player.playerRack.Rack.length; i++) {
+                    if (player.playerRack.Rack[i] != null)
+                        penalty += player.playerRack.Rack[i].value;
+                }
+                player.score -= penalty;
+            }
+        }
+    }
+
 }

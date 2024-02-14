@@ -60,6 +60,9 @@ public class Game {
         }
         if (bag.isEmpty() && isRackEmptyForAPlayer) {
             System.out.println("Game has ended since tile bag is empty and a player has an empty rack.");
+            ScoreHelper.updateScoresAtTheEndOfGame(players);
+            for (Player player : players)
+               System.out.println(player.name + "'s final score is: " + player.getScore());
             return true;
         }
 
