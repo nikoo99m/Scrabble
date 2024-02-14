@@ -148,7 +148,7 @@ public class Player {
 
         setTile(result);
 
-        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.startingPoint());
+        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.startingPoint(), result.tileSelection().length() == 7);
     }
 
     private Result getResult(String moveAsString) {
