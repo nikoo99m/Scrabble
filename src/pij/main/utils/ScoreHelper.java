@@ -40,9 +40,10 @@ public class ScoreHelper {
             }
             score *= premiumWordMultiplier;
         }
-        if (moveReturn.details.sevenTilesPlayed){
-            score += 75;
-        }
+        if (moveReturn.details != null)
+            if (moveReturn.details.sevenTilesPlayed) {
+                score += 75;
+            }
         player.setScore(score);
 
     }
