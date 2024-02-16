@@ -6,7 +6,7 @@ public class Location {
 
     public Location(String numberPart, String charPart) {
         this.j = get(charPart.charAt(0));
-        this.i = Integer.parseInt(numberPart);
+        this.i = Integer.parseInt(numberPart) - 1;
 
     }
     public Location(int i, int j) {

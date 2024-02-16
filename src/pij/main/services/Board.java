@@ -43,11 +43,11 @@ public class Board {
     public void prettyPrint() {
         printXAxisHeader();
         for (int i = 0; i < size; i++) {
-            System.out.print(StringHelper.set5(String.valueOf(i)));
+            System.out.print(StringHelper.set5(String.valueOf(i + 1)));
             for (int j = 0; j < size; j++) {
                 System.out.print(letter[i][j].toString());
             }
-            System.out.print(StringHelper.set5(String.valueOf(i)));
+            System.out.print(StringHelper.set5(String.valueOf(i + 1)));
             System.out.println();
         }
         printXAxisHeader();

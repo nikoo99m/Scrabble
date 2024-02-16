@@ -277,7 +277,7 @@ public class Player {
         int i = result.location.i;
         int j = result.location.j;
 
-        for (int k = 0; k < result.tileSelection.length() + 1; k++) {
+        for (int k = 0; k <= result.tileSelection.length() + 1; k++) {
             if (game.isFirstMove) {
                 Location boardCentre = board.getStartingPoint();
                 if (i == boardCentre.i && j == boardCentre.j)
