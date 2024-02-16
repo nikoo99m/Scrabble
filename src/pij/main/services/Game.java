@@ -11,11 +11,12 @@ import java.util.*;
 
 public class Game {
 
-    ArrayList<Player> players = new ArrayList<Player>();
+    static ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<MoveReturn.MoveResult> moves = new ArrayList<>();
     Board board;
     public boolean isFirstMove = true;
     private TileBag bag;
+
 
     public Game() {
         String filePath = "resources\\defaultBoard.txt";
@@ -23,15 +24,17 @@ public class Game {
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-        players.add(new Player(bag, board, dictionary, this, "noobak"));
-        players.add(new Player(bag, board, dictionary, this, "noob-o-din"));
+        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
 
     }
 
     public void play() {
+        //startOfTheGame();
         board.prettyPrint();
         while (true) {
             for (Player player : players) {
+
                 System.out.println("It is " + player.name + " turn Your tiles:");
 
                 fillTileRack(player, bag);
@@ -82,8 +85,9 @@ public class Game {
         for (Player player : players) {
             System.out.println(player.name + "'s final score is: " + player.getScore());
         }
-
-        boolean allSame = players.stream().allMatch(x -> x.equals(players.get(0)));
+        boolean allSame = players.stream()
+                .map(Player::getScore)
+                .allMatch(score -> score == players.get(0).getScore());
         if (allSame)
             System.out.println("Players have tied, it's a draw!");
         else {
