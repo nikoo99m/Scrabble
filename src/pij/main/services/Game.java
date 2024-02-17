@@ -23,21 +23,48 @@ public class Game {
 
 
     public Game() {
+        startOfTheGame();
         String filePath = "resources\\defaultBoard.txt";
         board = BoardHelper.loadBoardFromFile(filePath);
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "Noobak"));
+        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+        // players.add(new ComputerPlayer(bag, board, dictionary, this, "Noobak"));
 
         players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
 //        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
 
     }
 
+    public String startOfTheGame() {
+        String userInput = "";
+        boolean correctInput = false;
+        while (!correctInput) {
+            try {
+                System.out.println("Would you like to _l_oad a board or use the _d_efault board?");
+                System.out.println("Please enter your choice (l/d):");
+                Scanner scanner = new Scanner(System.in);
+                userInput = scanner.nextLine();
+
+                if (Objects.equals(userInput, "d") || Objects.equals(userInput, "l")) {
+                    correctInput = true;
+                    break;
+                } else {
+                    System.out.println("Invalid input! Please enter 'l' or 'd'.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter 'l' or 'd'.");
+            } catch (NoSuchElementException | IllegalStateException e) {
+                System.out.println("Error reading input. Please try again.");
+            }
+        }
+        return userInput;
+    }
+
+
     public void play() {
-        //startOfTheGame();
+
         board.prettyPrint();
         while (true) {
             for (AbstractPlayer player : players) {
