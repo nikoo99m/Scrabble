@@ -1,6 +1,7 @@
 package pij.main.services;
 
 import pij.main.ComputerPlayer;
+import pij.main.exceptions.*;
 import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
@@ -22,25 +23,26 @@ public class Game {
     private TileBag bag;
 
 
-    public Game() {
-        startOfTheGame();
-        String filePath = "resources\\defaultBoard.txt";
-        board = BoardHelper.loadBoardFromFile(filePath);
+    public Game() throws DefaultBoardNotFoundException {
+        String input = startOfTheGame();
+        board = loadBoard(input);
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-        // players.add(new ComputerPlayer(bag, board, dictionary, this, "Noobak"));
+//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
 
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
-//        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
+
+//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer1"));
+//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer2"));
 
     }
 
     public String startOfTheGame() {
         String userInput = "";
-        boolean correctInput = false;
-        while (!correctInput) {
+        while (true) {
             try {
                 System.out.println("Would you like to _l_oad a board or use the _d_efault board?");
                 System.out.println("Please enter your choice (l/d):");
@@ -48,7 +50,6 @@ public class Game {
                 userInput = scanner.nextLine();
 
                 if (Objects.equals(userInput, "d") || Objects.equals(userInput, "l")) {
-                    correctInput = true;
                     break;
                 } else {
                     System.out.println("Invalid input! Please enter 'l' or 'd'.");
@@ -60,6 +61,32 @@ public class Game {
             }
         }
         return userInput;
+    }
+
+    public Board loadBoard(String input) throws DefaultBoardNotFoundException {
+        if (input.equals("d")) {
+            try {
+                return BoardHelper.loadBoardFromFile("resources\\defaultBoard.txt");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                throw new DefaultBoardNotFoundException();
+            }
+        } else {
+            while (true) {
+                System.out.println("Please enter the file name of the board:");
+                Scanner scanner = new Scanner(System.in);
+                String userInput = scanner.nextLine();
+                File file = new File(userInput);
+                try {
+                    if (!file.exists()) {
+                        throw new FileNotFoundException("File not found: " + userInput);
+                    }
+                    return BoardHelper.loadBoardFromFile(userInput);
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+        }
     }
 
 
@@ -84,7 +111,6 @@ public class Game {
                 if (hasGameEnded())
                     return;
             }
-
 //            try {
 //                Thread.sleep(5000);
 //            } catch (InterruptedException e) {
@@ -100,7 +126,7 @@ public class Game {
         if (bag.isEmpty() && aPlayerHasAnEmptyRack) {
             System.out.println("Game has ended since tile bag is empty and a player has an empty rack.");
             ScoreHelper.updateScoresAtTheEndOfGame(players);
-            accounceGameResult();
+            announceGameResult();
             return true;
         }
 
@@ -121,7 +147,7 @@ public class Game {
         return false;
     }
 
-    private void accounceGameResult() {
+    private void announceGameResult() {
         for (AbstractPlayer player : players) {
             System.out.println(player.name + "'s final score is: " + player.getScore());
         }

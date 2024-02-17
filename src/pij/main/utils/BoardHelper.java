@@ -15,9 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BoardHelper {
+
     private static List<String> readLinesFromFile(String filePath) {
         List<String> lines = new ArrayList<>();
-
         try {
             File file = new File(filePath);
             Scanner scanner = new Scanner(file);
@@ -25,7 +25,6 @@ public class BoardHelper {
             while (scanner.hasNextLine()) {
                 lines.add(scanner.nextLine());
             }
-
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -35,9 +34,11 @@ public class BoardHelper {
         return lines;
     }
 
-    public static Board loadBoardFromFile(String filePath) {
 
-        try {
+    public static Board loadBoardFromFile(String filePath) throws InvalidValueFormatForBoardSizeException,
+            InvalidBoardSizeException, BoardContentSizeMismatchException,
+            InvalidInputFormatAsPremiumFieldException, OutOfRangeBoardValueException {
+
             List<String> lines = readLinesFromFile(filePath);
 
             int size = getSize(lines);
@@ -48,10 +49,6 @@ public class BoardHelper {
             setBoardFields(boardContentLines, board, size);
 
             return board;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
     }
 
     private static int getSize(List<String> lines) throws InvalidValueFormatForBoardSizeException {
