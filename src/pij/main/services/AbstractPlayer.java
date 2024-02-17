@@ -39,8 +39,14 @@ public abstract class AbstractPlayer {
         return score;
     }
 
-    public abstract WildCardReturn wildCardExists();
-
+    protected WildCardReturn wildCardExists() {
+        for (int i = 0; i < playerRack.Rack.length; i++) {
+            if (playerRack.Rack[i] != null && playerRack.Rack[i].character.equals("_")) {
+                return new WildCardReturn(i, true);
+            }
+        }
+        return new WildCardReturn(-1, false);
+    }
     protected boolean isVertical(String location) {
         if (Character.isDigit(location.charAt(0))) {
             return false;
@@ -114,6 +120,8 @@ public abstract class AbstractPlayer {
     }
 
     public abstract MoveReturn move();
+
+    public abstract void setWildCardIfExists(AbstractPlayer player);
 
     protected boolean checkMoveIsValid(Result result, String moveAsString, boolean isHuman) {
         boolean isTileStartingPointValid = checkStartingPointIsValid(result.location);

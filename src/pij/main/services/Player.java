@@ -6,6 +6,7 @@ import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.MethodReturns.WordChoice;
 import pij.main.utils.StringHelper;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,16 +15,6 @@ public class Player extends AbstractPlayer {
 
     public Player(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
         super(tileBag, board, dictionary, game, name);
-    }
-
-    @Override
-    public WildCardReturn wildCardExists() {
-        for (int i = 0; i < playerRack.Rack.length; i++) {
-            if (playerRack.Rack[i] != null && playerRack.Rack[i].character.equals("_")) {
-                return new WildCardReturn(i, true);
-            }
-        }
-        return new WildCardReturn(-1, false);
     }
 
     @Override
@@ -81,6 +72,36 @@ public class Player extends AbstractPlayer {
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
         return moveAsString;
+    }
+
+    @Override
+    public void setWildCardIfExists(AbstractPlayer player) {
+        WildCardReturn wcr = player.wildCardExists();
+        while (wcr.isWildCard) {
+            System.out.println("Do you want to use the wildCard?");
+            System.out.println("If you want just say true otherwise false.");
+            boolean answer = false;
+            while (true) {
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    answer = scanner.nextBoolean();
+                    System.out.println("You entered: " + answer);
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input, please enter true/false :");
+                }
+            }
+            Scanner scanner = new Scanner(System.in);
+
+            if (answer) {
+                System.out.println("Enter your desired character:" + " ");
+                String wildCardValue = scanner.next();
+                player.getRack().Rack[wcr.index].character = wildCardValue;
+                System.out.println(player.getRack().toString());
+            } else
+                break;
+            wcr = player.wildCardExists();
+        }
     }
 }
 

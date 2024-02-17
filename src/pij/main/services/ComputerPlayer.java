@@ -10,6 +10,7 @@ import pij.main.services.AbstractPlayer;
 import pij.main.services.Board;
 import pij.main.services.Game;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +21,23 @@ public class ComputerPlayer extends AbstractPlayer {
     }
 
     @Override
-    public WildCardReturn wildCardExists() {
-        return new WildCardReturn(-1, false);
+    public void setWildCardIfExists(AbstractPlayer player) {
+        Random random = new Random();
+        WildCardReturn wcr = player.wildCardExists();
+
+        while (wcr.isWildCard) {
+            int randomIndex = random.nextInt(26);
+            char randomChar = (char) ('a' + randomIndex);
+            player.getRack().Rack[wcr.index].character = String.valueOf(randomChar);
+
+            System.out.println("Computer has decided to use its Wild Card!");
+            System.out.println("Computer has chosen the character:" + randomChar);
+            System.out.println(player.getRack().toString());
+
+            wcr = player.wildCardExists();
+        }
     }
+
 
     @Override
     public MoveReturn move() {

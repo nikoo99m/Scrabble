@@ -30,11 +30,11 @@ public class Game {
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
+//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
 
-//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
-//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
 
 //        players.add(new Player(bag, board, dictionary, this, "HumanPlayer1"));
 //        players.add(new Player(bag, board, dictionary, this, "HumanPlayer2"));
@@ -135,7 +135,7 @@ public class Game {
                     System.out.println("It is " + player.name + " turn Your tiles:");
                     System.out.println(player.getRack().toString());
                 }
-                setWildCardIfExists(player);
+                player.setWildCardIfExists(player);
 
                 MoveReturn moveReturn = processPlayerMove(player);
                 fillTileRack(player, bag);
@@ -203,6 +203,7 @@ public class Game {
     private void fillTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.add(bag.randomPop()))
             ;
+
         //player.playerRack.Rack[0].character = "_";
 //        System.out.println(player.getRack().toString());
     }
@@ -226,34 +227,5 @@ public class Game {
         moves.add(moveReturn.result);
 
         return moveReturn;
-    }
-
-    private void setWildCardIfExists(AbstractPlayer player) {
-        WildCardReturn wcr = player.wildCardExists();
-        while (wcr.isWildCard) {
-            System.out.println("Do you want to use the wildCard?");
-            System.out.println("If you want just say true otherwise false.");
-            boolean answer = false;
-            while (true) {
-                try {
-                    Scanner scanner = new Scanner(System.in);
-                    answer = scanner.nextBoolean();
-                    System.out.println("You entered: " + answer);
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input, please enter true/false :");
-                }
-            }
-            Scanner scanner = new Scanner(System.in);
-
-            if (answer) {
-                System.out.println("Enter your desired character:" + " ");
-                String wildCardValue = scanner.next();
-                player.getRack().Rack[wcr.index].character = wildCardValue;
-                System.out.println(player.getRack().toString());
-            } else
-                break;
-            wcr = player.wildCardExists();
-        }
     }
 }
