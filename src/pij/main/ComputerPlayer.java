@@ -30,31 +30,19 @@ public class ComputerPlayer extends AbstractPlayer {
         String[] array = Arrays.stream(playerRack.Rack)
                 .filter(x -> !x.character.equals("_"))
                 .map(x -> x.character).toArray(String[]::new);
-
         List<String> permutations = generatePermutations(array);
+
         for (String permutation : permutations) {
             for (int i = 0; i < board.getSize(); i++) {
                 for (int j = 0; j < board.getSize(); j++) {
 
                     Location startingPoint = new Location(i, j);
-                    Result result = new Result(permutation, true, startingPoint);
 
-                    if (checkMoveIsValid(result, permutation, false)) {
-                        String acceptedWord = getAcceptedWord(result);
-                        setTile(result);
-
-                        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
-                                result.vertical(), result.tileSelection().length() == 7);
-                    }
-
-                    result = new Result(permutation, false, startingPoint);
-
-                    if (checkMoveIsValid(result, permutation, false)) {
-                        String acceptedWord = getAcceptedWord(result);
-                        setTile(result);
-
-                        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
-                                result.vertical(), result.tileSelection().length() == 7);
+                    for (boolean isVerticalMove : new boolean[]{true, false}) {
+                        Result result = new Result(permutation, isVerticalMove, startingPoint);
+                        if (checkMoveIsValid(result, permutation, false)) {
+                            return performMove(result);
+                        }
                     }
                 }
             }
@@ -62,8 +50,16 @@ public class ComputerPlayer extends AbstractPlayer {
         return new MoveReturn(MoveReturn.MoveResult.Pass);
     }
 
+    private MoveReturn performMove(Result result) {
+        String acceptedWord = getAcceptedWord(result);
+        setTile(result);
 
-    public static List<String> generatePermutations(String[] array) {
+        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
+                result.vertical(), result.tileSelection().length() == 7);
+    }
+
+
+    private static List<String> generatePermutations(String[] array) {
         List<String> result = new ArrayList<>();
         for (int len = 1; len <= array.length; len++) {
             generatePermutations(array, new boolean[array.length], new StringBuilder(), result, len);
