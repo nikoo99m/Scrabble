@@ -201,8 +201,8 @@ public class Game {
     }
 
     private void fillTileRack(AbstractPlayer player, TileBag bag) {
-        while (!bag.isEmpty() && player.playerRack.add(bag.randomPop()))
-            ;
+        while (!bag.isEmpty() && player.playerRack.hasEmpty())
+            player.playerRack.add(bag.randomPop());
 
         //player.playerRack.Rack[0].character = "_";
 //        System.out.println(player.getRack().toString());

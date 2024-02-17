@@ -1,5 +1,9 @@
 package pij.main.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+
 public class TileRack {
     public Tile[] Rack = new Tile[7];
 
@@ -11,6 +15,12 @@ public class TileRack {
         }
         return true;
     }
+
+    public boolean hasEmpty()
+    {
+        return Arrays.stream(Rack).anyMatch(Objects::isNull);
+    }
+
     public boolean add(Tile tile) {
         for (int i = 0; i < 7; i++) {
             if (Rack[i] == null) {
