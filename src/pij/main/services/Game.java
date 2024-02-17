@@ -21,19 +21,21 @@ public class Game {
     Board board;
     public boolean isFirstMove = true;
     private TileBag bag;
+    boolean isOpen;
 
 
     public Game() throws DefaultBoardNotFoundException {
         String input = startOfTheGame();
         board = loadBoard(input);
+        isOpen = setOpenOrClosedGameStates();
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
+        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
 
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
+//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
+//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
 
 //        players.add(new Player(bag, board, dictionary, this, "HumanPlayer1"));
 //        players.add(new Player(bag, board, dictionary, this, "HumanPlayer2"));
@@ -89,19 +91,56 @@ public class Game {
         }
     }
 
+    public boolean setOpenOrClosedGameStates() {
+        while (true) {
+            try {
+                System.out.println("Would you like to play an _o_pen or a _c_losed game?");
+                System.out.println("Please enter your choice (o/c):");
+                Scanner scanner = new Scanner(System.in);
+                String userInput = scanner.nextLine();
+
+                if (Objects.equals(userInput, "c")) {
+                    return false;
+                } else if (Objects.equals(userInput, "o")) {
+                    return true;
+                } else {
+                    System.out.println("Invalid input! Please enter 'c' or 'o'.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter 'c' or 'o'.");
+            } catch (NoSuchElementException | IllegalStateException e) {
+                System.out.println("Error reading input. Please try again.");
+            }
+        }
+
+    }
 
     public void play() {
 
         board.prettyPrint();
+
+        players.forEach(x -> fillTileRack(x, bag));
+
         while (true) {
             for (AbstractPlayer player : players) {
-
-                System.out.println("It is " + player.name + " turn Your tiles:");
-
-                fillTileRack(player, bag);
+                if (isOpen && player instanceof Player) {
+                    AbstractPlayer computer = players.stream()
+                            .filter(x -> x instanceof ComputerPlayer)
+                            .findFirst()
+                            .get();
+                    System.out.println("OPEN GAME: The Computer's tiles:");
+                    System.out.println("OPEN GAME:" + computer.getRack().toString());
+                    System.out.println("It is " + player.name + " turn Your tiles:");
+                    System.out.println(player.getRack().toString());
+                } else {
+                    System.out.println("It is " + player.name + " turn Your tiles:");
+                    System.out.println(player.getRack().toString());
+                }
                 setWildCardIfExists(player);
 
                 MoveReturn moveReturn = processPlayerMove(player);
+                fillTileRack(player, bag);
+
                 ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
 
                 System.out.println("player " + player.name + " score is:" + player.getScore());
@@ -166,7 +205,7 @@ public class Game {
         while (!bag.isEmpty() && player.playerRack.add(bag.randomPop()))
             ;
         //player.playerRack.Rack[0].character = "_";
-        System.out.println(player.getRack().toString());
+//        System.out.println(player.getRack().toString());
     }
 
     private MoveReturn processPlayerMove(AbstractPlayer player) {
