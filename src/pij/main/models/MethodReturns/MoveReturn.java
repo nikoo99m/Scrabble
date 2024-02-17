@@ -7,8 +7,8 @@ public class MoveReturn {
     public MoveResult result;
     public MoveDetails details;
 
-    public MoveReturn(String word, Location location, MoveResult result, boolean vertical, String position, boolean sevenTilesPlayed) {
-        this.details = new MoveDetails(word, location, vertical, position, sevenTilesPlayed);
+    public MoveReturn(String word, Location location, MoveResult result, boolean vertical, boolean sevenTilesPlayed) {
+        this.details = new MoveDetails(word, location, vertical, sevenTilesPlayed);
         this.result = result;
     }
     public MoveReturn(MoveResult result) {
@@ -23,16 +23,14 @@ public class MoveReturn {
     }
     public class MoveDetails {
         public String word;
-        public String position;
         public Location location;
         public boolean vertical;
         public boolean sevenTilesPlayed;
 
-        public MoveDetails(String word, Location location, boolean vertical, String position, boolean sevenTilesPlayed) {
+        public MoveDetails(String word, Location location, boolean vertical, boolean sevenTilesPlayed) {
             this.word = word;
             this.location = location;
             this.vertical = vertical;
-            this.position = position;
             this.sevenTilesPlayed = sevenTilesPlayed;
         }
         public MoveDetails(String word) {

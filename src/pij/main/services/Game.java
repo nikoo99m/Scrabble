@@ -7,6 +7,7 @@ import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;
+import pij.main.utils.StringHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -118,7 +119,7 @@ public class Game {
             System.out.println("player " + player.name + " passes the turn.");
         } else {
             System.out.println("The move is: Word: " + moveReturn.details.word +
-                    " at position " + moveReturn.details.position);
+                    " at position " + StringHelper.printLocation(moveReturn.details.location, moveReturn.details.vertical));
             if (isFirstMove)
                 isFirstMove = false;
         }

@@ -1,5 +1,7 @@
 package pij.main.utils;
 
+import pij.main.models.Location;
+
 public class StringHelper {
     public static String set5(String inputString)
     {
@@ -14,6 +16,14 @@ public class StringHelper {
             }
         }
         return inputString;
+    }
+
+    public static String printLocation(Location location, boolean isVertical)
+    {
+        if(isVertical)
+            return new StringBuilder(location.toString()).reverse().toString();
+        else
+            return location.toString();
     }
 }
 

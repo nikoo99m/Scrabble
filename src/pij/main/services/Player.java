@@ -3,6 +3,7 @@ package pij.main.services;
 import pij.main.models.*;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.utils.StringHelper;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -140,7 +141,7 @@ public class Player {
 
         setTile(result);
 
-        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.startingPoint(), result.tileSelection().length() == 7);
+        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.tileSelection().length() == 7);
     }
 
     private Result getResult(String moveAsString) {
@@ -151,10 +152,10 @@ public class Player {
         boolean vertical = isVertical(startingPoint);
         Location location = getLocation(vertical, startingPoint);
 
-        return new Result(tileSelection, startingPoint, vertical, location);
+        return new Result(tileSelection, vertical, location);
     }
 
-    public record Result(String tileSelection, String startingPoint, boolean vertical, Location location) {
+    public record Result(String tileSelection, boolean vertical, Location location) {
     }
 
     private static boolean validateMoveInput(String moveAsString) {
@@ -183,7 +184,7 @@ public class Player {
         boolean isTileStartingPointValid = checkStartingPointIsValid(result.location);
         if (!isTileStartingPointValid) {
             if (isHuman)
-                System.out.println("You can not play with this starting point : " + result.startingPoint);
+                System.out.println("You can not play with this starting point : " + StringHelper.printLocation(result.location(), result.vertical));
             return false;
         }
 

@@ -30,24 +30,24 @@ public class ComputerPlayer extends Player {
                 for (int j = 0; j < board.getSize(); j++) {
 
                     Location startingPoint = new Location(i, j);
-                    Result result = new Result(permutation, "", true, startingPoint);
+                    Result result = new Result(permutation, true, startingPoint);
 
                     if (checkMoveIsValid(result, permutation, false)) {
                         String acceptedWord = getAcceptedWord(result);
                         setTile(result);
 
                         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
-                                result.vertical(), result.startingPoint(), result.tileSelection().length() == 7);
+                                result.vertical(), result.tileSelection().length() == 7);
                     }
 
-                    result = new Result(permutation, "", false, startingPoint);
+                    result = new Result(permutation, false, startingPoint);
 
                     if (checkMoveIsValid(result, permutation, false)) {
                         String acceptedWord = getAcceptedWord(result);
                         setTile(result);
 
                         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
-                                result.vertical(), result.startingPoint(), result.tileSelection().length() == 7);
+                                result.vertical(), result.tileSelection().length() == 7);
                     }
                 }
             }

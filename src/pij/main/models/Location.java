@@ -22,5 +22,12 @@ public class Location {
             throw new IllegalArgumentException("Invalid input: " + startChar);
         }
     }
+
+    @Override
+    public String toString() {
+        char ch = (char) (j + 'a');
+        String str = Character.toString(ch);
+        return (i + 1) + str;
+    }
 }
 
