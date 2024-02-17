@@ -31,7 +31,7 @@ public class TileRack {
                 m = m + "[" + n + x + "]";
             }
             else
-                m = m + "[]";
+                m = m + "[ ]";
             if(i + 1 != Rack.length)
                 m += ", ";
         }
