@@ -1,6 +1,5 @@
 package pij.main.services;
 
-import pij.main.ComputerPlayer;
 import pij.main.exceptions.*;
 import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;

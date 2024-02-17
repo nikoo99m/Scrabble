@@ -1,4 +1,4 @@
-package pij.main;
+package pij.main.services;
 
 import pij.main.models.Dictionary;
 import pij.main.models.Location;
