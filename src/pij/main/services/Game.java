@@ -1,5 +1,6 @@
 package pij.main.services;
 
+import pij.main.ComputerPlayer;
 import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
@@ -7,6 +8,8 @@ import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
@@ -25,7 +28,8 @@ public class Game {
         Dictionary dictionary = new Dictionary();
 
         players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
+//        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
 
     }
 
@@ -38,7 +42,7 @@ public class Game {
                 System.out.println("It is " + player.name + " turn Your tiles:");
 
                 fillTileRack(player, bag);
-                setWildCardIfExists(player);
+//                setWildCardIfExists(player);
 
                 MoveReturn moveReturn = processPlayerMove(player);
                 ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
@@ -100,6 +104,7 @@ public class Game {
         while (!bag.isEmpty() && player.playerRack.add(bag.randomPop()))
             ;
         //player.playerRack.Rack[0].character = "_";
+        System.out.println(player.getRack().toString());
     }
 
     private MoveReturn processPlayerMove(Player player) {
@@ -125,7 +130,6 @@ public class Game {
 
     private void setWildCardIfExists(Player player) {
         WildCardReturn wcr = player.wildCardExists();
-        System.out.println(player.getRack().toString());
         while (wcr.isWildCard) {
             System.out.println("Do you want to use the wildCard?");
             System.out.println("If you want just say true otherwise false.");
