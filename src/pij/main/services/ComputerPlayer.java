@@ -37,8 +37,6 @@ public class ComputerPlayer extends AbstractPlayer {
             wcr = player.wildCardExists();
         }
     }
-
-
     @Override
     public MoveReturn move() {
         String[] array = Arrays.stream(playerRack.Rack)
@@ -63,7 +61,6 @@ public class ComputerPlayer extends AbstractPlayer {
         }
         return new MoveReturn(MoveReturn.MoveResult.Pass);
     }
-
     private MoveReturn performMove(Result result) {
         WordChoice acceptedWord = getAcceptedWord(result);
         setTile(result);
@@ -71,8 +68,6 @@ public class ComputerPlayer extends AbstractPlayer {
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
                 result.vertical(), result.tileSelection().length() == 7);
     }
-
-
     private static List<String> generatePermutations(String[] array) {
         List<String> result = new ArrayList<>();
         for (int len = 1; len <= array.length; len++) {
@@ -80,7 +75,6 @@ public class ComputerPlayer extends AbstractPlayer {
         }
         return result;
     }
-
     private static void generatePermutations(String[] array, boolean[] used, StringBuilder current, List<String> result, int len) {
         if (current.length() == len) {
             result.add(current.toString());

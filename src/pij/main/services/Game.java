@@ -22,7 +22,6 @@ public class Game {
     private TileBag bag;
     boolean isOpen;
 
-
     public Game() throws DefaultBoardNotFoundException {
         String input = startOfTheGame();
         board = loadBoard(input);
@@ -63,7 +62,6 @@ public class Game {
         }
         return userInput;
     }
-
     public Board loadBoard(String input) throws DefaultBoardNotFoundException {
         if (input.equals("d")) {
             try {
@@ -89,7 +87,6 @@ public class Game {
             }
         }
     }
-
     public boolean setOpenOrClosedGameStates() {
         while (true) {
             try {
@@ -113,7 +110,6 @@ public class Game {
         }
 
     }
-
     public void play() {
 
         board.prettyPrint();
@@ -156,7 +152,6 @@ public class Game {
 //            }
         }
     }
-
     private boolean hasGameEnded() {
         boolean aPlayerHasAnEmptyRack = players.stream()
                 .anyMatch(player -> player.getRack().isEmpty());
@@ -186,7 +181,6 @@ public class Game {
 
         return false;
     }
-
     private void announceGameResult() {
         for (AbstractPlayer player : players) {
             System.out.println(player.name + "'s final score is: " + player.getScore());
@@ -201,7 +195,6 @@ public class Game {
             winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
         }
     }
-
     private void fillTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.hasEmpty())
             player.playerRack.add(bag.randomPop());
@@ -209,7 +202,6 @@ public class Game {
         //player.playerRack.Rack[0].character = "_";
 //        System.out.println(player.getRack().toString());
     }
-
     private MoveReturn processPlayerMove(AbstractPlayer player) {
         MoveReturn moveReturn = player.move();
 

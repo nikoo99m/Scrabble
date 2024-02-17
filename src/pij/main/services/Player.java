@@ -41,7 +41,6 @@ public class Player extends AbstractPlayer {
 
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.tileSelection().length() == 7);
     }
-
     private Result getResult(String moveAsString) {
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
@@ -52,7 +51,6 @@ public class Player extends AbstractPlayer {
 
         return new Result(tileSelection, vertical, location);
     }
-
     private static boolean validateMoveInput(String moveAsString) {
         String pattern = "[a-zA-Z]+,((\\d{1,2}[a-zA-Z])|([a-zA-Z]\\d{1,2}))";
         if (!moveAsString.matches(pattern)) {
@@ -66,14 +64,12 @@ public class Player extends AbstractPlayer {
         }
         return true;
     }
-
     private static String getUserInput() {
         System.out.println("Please enter your move in the format: \"word,square\" (without the quotes)");
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
         return moveAsString;
     }
-
     @Override
     public void setWildCardIfExists(AbstractPlayer player) {
         WildCardReturn wcr = player.wildCardExists();

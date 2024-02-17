@@ -26,19 +26,15 @@ public abstract class AbstractPlayer {
         this.game = game;
         this.name = name;
     }
-
     public void setScore(int score) {
         this.score += score;
     }
-
     public TileRack getRack() {
         return playerRack;
     }
-
     public int getScore() {
         return score;
     }
-
     protected WildCardReturn wildCardExists() {
         for (int i = 0; i < playerRack.Rack.length; i++) {
             if (playerRack.Rack[i] != null && playerRack.Rack[i].character.equals("_")) {
@@ -53,7 +49,6 @@ public abstract class AbstractPlayer {
         }
         return true;
     }
-
     private Location getStartingLocation(String inputString, boolean useNumberFirst) {
         Pattern pattern = Pattern.compile("([a-zA-Z]+)([0-9]+)|([0-9]+)([a-zA-Z]+)");
 
@@ -80,7 +75,6 @@ public abstract class AbstractPlayer {
 
         throw new RuntimeException("No location found.");
     }
-
     public Tile fetchTileFromRack(String c) {
         for (int i = 0; i < playerRack.Rack.length; i++) {
             Tile tile = playerRack.Rack[i];
@@ -91,7 +85,6 @@ public abstract class AbstractPlayer {
         }
         throw new RuntimeException("Could not find player's choice in Rack.");
     }
-
     public boolean checkTileSelectionIsValid(String tileSelection) {
         for (int j = 0; j < tileSelection.length(); j++) {
             String charr = tileSelection.charAt(j) + "";
@@ -108,7 +101,6 @@ public abstract class AbstractPlayer {
         }
         return true;
     }
-
     public boolean checkStartingPointIsValid(Location startingPoint) {
         int i = startingPoint.i;
         int j = startingPoint.j;
@@ -118,11 +110,8 @@ public abstract class AbstractPlayer {
 
         return true;
     }
-
     public abstract MoveReturn move();
-
     public abstract void setWildCardIfExists(AbstractPlayer player);
-
     protected boolean checkMoveIsValid(Result result, String moveAsString, boolean isHuman) {
         boolean isTileStartingPointValid = checkStartingPointIsValid(result.location);
         if (!isTileStartingPointValid) {
@@ -165,7 +154,6 @@ public abstract class AbstractPlayer {
 
         return true;
     }
-
     protected void setTile(Result result) {
         int m = 0;
         int i = result.location.i;
@@ -184,18 +172,15 @@ public abstract class AbstractPlayer {
             }
         }
     }
-
     private boolean nextTileIsEmpty(boolean isVertical, int i, int j) {
 
         return board.letter[i][j].tile == null;
     }
-
     private boolean ckeckWordChoiceIsInDictionary(Result result) {
         WordChoice acceptedWord = getAcceptedWord(result);
 
         return dictionary.exists(acceptedWord.word);
     }
-
     protected WordChoice getAcceptedWord(Result result) {
         StringBuilder acceptedWord = new StringBuilder();
         int n = 0;
@@ -231,14 +216,12 @@ public abstract class AbstractPlayer {
         }
         return new WordChoice(acceptedWord.toString(), wordStartingPoint);
     }
-
     private boolean checkIfSelectedTileIsEmpty(Result result) {
         int i = result.location.i;
         int j = result.location.j;
 
         return board.letter[i][j].tile == null;
     }
-
     private boolean checkWordPlacementOverlapsExistingOnBoard(Result result, boolean isHuman) {
 
         int i = result.location.i;
@@ -276,7 +259,6 @@ public abstract class AbstractPlayer {
         }
         return false;
     }
-
     private boolean checkCollidesWithBoardEdge(Result result) {
 
         int boardSize = board.getSize();
@@ -297,7 +279,6 @@ public abstract class AbstractPlayer {
         }
         return false;
     }
-
     protected Location getLocation(boolean vertical, String startingPoint) {
         Location location;
         if (!vertical) {
@@ -307,7 +288,6 @@ public abstract class AbstractPlayer {
         }
         return location;
     }
-
     public record Result(String tileSelection, boolean vertical, Location location) {
     }
 }

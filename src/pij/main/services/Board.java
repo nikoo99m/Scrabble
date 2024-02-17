@@ -16,30 +16,11 @@ public class Board {
     public Board(int size) {
         this.size = size;
         this.letter = new Square[size][size];
-        //makeItAll();
     }
-
     public int getSize()
     {
         return size;
     }
-    public void makeItAll() {
-        Random random = new Random();
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int randomNumber = random.nextInt(3) + 1;
-
-                if (randomNumber == 1) {
-                    letter[i][j] = new StandardSquare();
-                } else if (randomNumber == 2) {
-                    letter[i][j] = new CurlySquare(random.nextInt(99));
-                } else {
-                    letter[i][j] = new BracketSquare(random.nextInt(99));
-                }
-            }
-        }
-    }
-
     public void prettyPrint() {
         printXAxisHeader();
         for (int i = 0; i < size; i++) {
@@ -52,7 +33,6 @@ public class Board {
         }
         printXAxisHeader();
     }
-
     private void printXAxisHeader() {
         char ch = 'a';
         System.out.print("     ");
