@@ -178,6 +178,8 @@ public class Game {
             }
             if (playersHavePassedTwice) {
                 System.out.println("Game has ended due to players passing twice.");
+                ScoreHelper.updateScoresAtTheEndOfGame(players);
+                announceGameResult();
                 return true;
             }
         }
