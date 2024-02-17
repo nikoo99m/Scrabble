@@ -1,5 +1,6 @@
 package pij.main.utils;
 
+import pij.main.services.AbstractPlayer;
 import pij.main.services.Board;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.Squares.BracketSquare;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class ScoreHelper {
 
-    public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, Player player) {
+    public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, AbstractPlayer player) {
 
         int score = 0;
         if (moveReturn.result == MoveReturn.MoveResult.Done) {
@@ -48,8 +49,8 @@ public class ScoreHelper {
 
     }
 
-    public static void updateScoresAtTheEndOfGame(ArrayList<Player> players) {
-        for (Player player : players) {
+    public static void updateScoresAtTheEndOfGame(ArrayList<AbstractPlayer> players) {
+        for (AbstractPlayer player : players) {
             int penalty = 0;
             if (!player.playerRack.isEmpty()) {
                 for (int i = 0; i < player.playerRack.Rack.length; i++) {

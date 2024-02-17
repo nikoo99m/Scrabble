@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Game {
 
-    static ArrayList<Player> players = new ArrayList<Player>();
+    static ArrayList<AbstractPlayer> players = new ArrayList<AbstractPlayer>();
     ArrayList<MoveReturn.MoveResult> moves = new ArrayList<>();
     Board board;
     public boolean isFirstMove = true;
@@ -38,12 +38,12 @@ public class Game {
         //startOfTheGame();
         board.prettyPrint();
         while (true) {
-            for (Player player : players) {
+            for (AbstractPlayer player : players) {
 
                 System.out.println("It is " + player.name + " turn Your tiles:");
 
                 fillTileRack(player, bag);
-//                setWildCardIfExists(player);
+                setWildCardIfExists(player);
 
                 MoveReturn moveReturn = processPlayerMove(player);
                 ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
@@ -87,28 +87,28 @@ public class Game {
     }
 
     private void accounceGameResult() {
-        for (Player player : players) {
+        for (AbstractPlayer player : players) {
             System.out.println(player.name + "'s final score is: " + player.getScore());
         }
         boolean allSame = players.stream()
-                .map(Player::getScore)
+                .map(AbstractPlayer::getScore)
                 .allMatch(score -> score == players.get(0).getScore());
         if (allSame)
             System.out.println("Players have tied, it's a draw!");
         else {
-            Optional<Player> winner = players.stream().max(Comparator.comparingInt(Player::getScore));
+            Optional<AbstractPlayer> winner = players.stream().max(Comparator.comparingInt(AbstractPlayer::getScore));
             winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
         }
     }
 
-    private void fillTileRack(Player player, TileBag bag) {
+    private void fillTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.add(bag.randomPop()))
             ;
         //player.playerRack.Rack[0].character = "_";
         System.out.println(player.getRack().toString());
     }
 
-    private MoveReturn processPlayerMove(Player player) {
+    private MoveReturn processPlayerMove(AbstractPlayer player) {
         MoveReturn moveReturn = player.move();
 
         while (moveReturn.result == MoveReturn.MoveResult.Failed) {
@@ -129,7 +129,7 @@ public class Game {
         return moveReturn;
     }
 
-    private void setWildCardIfExists(Player player) {
+    private void setWildCardIfExists(AbstractPlayer player) {
         WildCardReturn wcr = player.wildCardExists();
         while (wcr.isWildCard) {
             System.out.println("Do you want to use the wildCard?");
@@ -157,5 +157,4 @@ public class Game {
             wcr = player.wildCardExists();
         }
     }
-
 }

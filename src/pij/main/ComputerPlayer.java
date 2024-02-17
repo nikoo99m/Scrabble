@@ -3,7 +3,9 @@ package pij.main;
 import pij.main.models.Dictionary;
 import pij.main.models.Location;
 import pij.main.models.MethodReturns.MoveReturn;
+import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.TileBag;
+import pij.main.services.AbstractPlayer;
 import pij.main.services.Board;
 import pij.main.services.Game;
 import pij.main.services.Player;
@@ -13,9 +15,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ComputerPlayer extends Player {
+public class ComputerPlayer extends AbstractPlayer {
     public ComputerPlayer(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
         super(tileBag, board, dictionary, game, name);
+    }
+
+    @Override
+    public WildCardReturn wildCardExists() {
+        return new WildCardReturn(-1, false);
     }
 
     @Override
