@@ -3,6 +3,7 @@ package pij.main.services;
 import pij.main.models.*;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.models.MethodReturns.WordChoice;
 import pij.main.utils.StringHelper;
 
 import java.util.Scanner;
@@ -43,7 +44,7 @@ public class Player extends AbstractPlayer {
         if (!checkMoveIsValid(result, moveAsString, true))
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
-        String acceptedWord = getAcceptedWord(result);
+        WordChoice acceptedWord = getAcceptedWord(result);
 
         setTile(result);
 

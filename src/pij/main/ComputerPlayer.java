@@ -4,16 +4,15 @@ import pij.main.models.Dictionary;
 import pij.main.models.Location;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.models.MethodReturns.WordChoice;
 import pij.main.models.TileBag;
 import pij.main.services.AbstractPlayer;
 import pij.main.services.Board;
 import pij.main.services.Game;
-import pij.main.services.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ComputerPlayer extends AbstractPlayer {
     public ComputerPlayer(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
@@ -28,7 +27,7 @@ public class ComputerPlayer extends AbstractPlayer {
     @Override
     public MoveReturn move() {
         String[] array = Arrays.stream(playerRack.Rack)
-                .filter(x -> !x.character.equals("_"))
+                .filter(x -> x != null && !x.character.equals("_"))
                 .map(x -> x.character).toArray(String[]::new);
         List<String> permutations = generatePermutations(array);
 
@@ -51,7 +50,7 @@ public class ComputerPlayer extends AbstractPlayer {
     }
 
     private MoveReturn performMove(Result result) {
-        String acceptedWord = getAcceptedWord(result);
+        WordChoice acceptedWord = getAcceptedWord(result);
         setTile(result);
 
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,

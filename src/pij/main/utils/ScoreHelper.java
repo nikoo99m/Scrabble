@@ -16,10 +16,10 @@ public class ScoreHelper {
 
         int score = 0;
         if (moveReturn.result == MoveReturn.MoveResult.Done) {
-            int i = moveReturn.details.location.i;
-            int j = moveReturn.details.location.j;
+            int i = moveReturn.details.word.wordStartingPoint.i;
+            int j = moveReturn.details.word.wordStartingPoint.j;
             int premiumWordMultiplier = 1;
-            for (int r = 0; r < moveReturn.details.word.length(); r++) {
+            for (int r = 0; r < moveReturn.details.word.word.length(); r++) {
                 Square square = board.letter[i][j];
                 if (square instanceof BracketSquare) {
                     int value = square.tile.value * square.multiplier;

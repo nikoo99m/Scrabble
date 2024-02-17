@@ -3,6 +3,7 @@ package pij.main.services;
 import pij.main.models.*;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.models.MethodReturns.WordChoice;
 import pij.main.utils.StringHelper;
 
 import java.util.regex.Matcher;
@@ -122,6 +123,13 @@ public abstract class AbstractPlayer {
             return false;
         }
 
+        boolean selectedTileIsEmpty = checkIfSelectedTileIsEmpty(result);
+        if (!selectedTileIsEmpty) {
+            if (isHuman)
+                System.out.println("There is already a character tile played at the selected location: " + StringHelper.printLocation(result.location(), result.vertical));
+            return false;
+        }
+
         boolean isTileSelectionValid = checkTileSelectionIsValid(result.tileSelection);
         if (!isTileSelectionValid) {
             if (isHuman)
@@ -175,23 +183,37 @@ public abstract class AbstractPlayer {
     }
 
     private boolean ckeckWordChoiceIsInDictionary(Result result) {
-        String acceptedWord = getAcceptedWord(result);
+        WordChoice acceptedWord = getAcceptedWord(result);
 
-        return dictionary.exists(acceptedWord);
+        return dictionary.exists(acceptedWord.word);
     }
 
-    protected String getAcceptedWord(Result result) {
-        String acceptedWord = "";
+    protected WordChoice getAcceptedWord(Result result) {
+        StringBuilder acceptedWord = new StringBuilder();
         int n = 0;
         int i = result.location.i;
         int j = result.location.j;
 
+        Location wordStartingPoint = new Location(i, j);
+
+
+        while ((result.vertical && i - 1 > 0 && board.letter[i - 1][j].tile != null) ||
+                (!result.vertical && j - 1 > 0 && board.letter[i][j - 1].tile != null)) {
+            if (result.vertical)
+                i = i - 1;
+            else
+                j = j - 1;
+
+            wordStartingPoint.i = i;
+            wordStartingPoint.j = j;
+        }
+
         while (n < result.tileSelection.length() || !nextTileIsEmpty(result.vertical, i, j)) {
             if (board.letter[i][j].tile == null) {
-                acceptedWord += result.tileSelection.charAt(n);
+                acceptedWord.append(result.tileSelection.charAt(n));
                 n++;
             } else {
-                acceptedWord += board.letter[i][j].tile.character;
+                acceptedWord.append(board.letter[i][j].tile.character);
             }
             if (result.vertical) {
                 i++;
@@ -199,7 +221,14 @@ public abstract class AbstractPlayer {
                 j++;
             }
         }
-        return acceptedWord;
+        return new WordChoice(acceptedWord.toString(), wordStartingPoint);
+    }
+
+    private boolean checkIfSelectedTileIsEmpty(Result result) {
+        int i = result.location.i;
+        int j = result.location.j;
+
+        return board.letter[i][j].tile == null;
     }
 
     private boolean checkWordPlacementOverlapsExistingOnBoard(Result result, boolean isHuman) {
@@ -207,13 +236,22 @@ public abstract class AbstractPlayer {
         int i = result.location.i;
         int j = result.location.j;
 
+        if (game.isFirstMove) {
+            Location boardCentre = board.getStartingPoint();
+            if (i == boardCentre.i && j == boardCentre.j)
+                return true;
+        }
+
+        if ((result.vertical && i - 1 > 0 && board.letter[i - 1][j].tile != null) ||
+                (!result.vertical && j - 1 > 0 && board.letter[i][j - 1].tile != null)) {
+            return true;
+        }
+
         for (int k = 0; k <= result.tileSelection.length(); k++) {
-            if (game.isFirstMove) {
-                Location boardCentre = board.getStartingPoint();
-                if (i == boardCentre.i && j == boardCentre.j)
-                    return true;
-            }
-            if (i < board.getSize() && j < board.getSize() && board.letter[i][j].tile != null) {
+            if (i > board.getSize() && j > board.getSize())
+                break;
+
+            if (board.letter[i][j].tile != null) {
                 return true;
             }
             if (result.vertical) {

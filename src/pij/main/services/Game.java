@@ -28,7 +28,9 @@ public class Game {
         bag = new TileBag();
         Dictionary dictionary = new Dictionary();
 
-        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
+        players.add(new ComputerPlayer(bag, board, dictionary, this, "Noobak"));
+
         players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
 //        players.add(new Player(bag, board, dictionary, this, "ComputerPlayer"));
 
@@ -55,6 +57,12 @@ public class Game {
                 if (hasGameEnded())
                     return;
             }
+
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
 
@@ -118,7 +126,7 @@ public class Game {
         if (moveReturn.result == MoveReturn.MoveResult.Pass) {
             System.out.println("player " + player.name + " passes the turn.");
         } else {
-            System.out.println("The move is: Word: " + moveReturn.details.word +
+            System.out.println("The move is: Word: " + moveReturn.details.word.word +
                     " at position " + StringHelper.printLocation(moveReturn.details.location, moveReturn.details.vertical));
             if (isFirstMove)
                 isFirstMove = false;
