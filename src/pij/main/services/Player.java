@@ -4,17 +4,16 @@ import pij.main.models.*;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.MethodReturns.WordChoice;
-import pij.main.utils.StringHelper;
+import pij.main.models.interfaces.Validator;
+import pij.main.utils.GameHelper;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Player extends AbstractPlayer {
 
-    public Player(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
-        super(tileBag, board, dictionary, game, name);
+    public Player(TileBag tileBag, Board board, Game game, String name) {
+        super(tileBag, board, game, name);
     }
 
     @Override
@@ -32,10 +31,11 @@ public class Player extends AbstractPlayer {
 
         Result result = getResult(moveAsString);
 
-        if (!checkMoveIsValid(result, moveAsString, true))
+        Validator validator =  new PlayerInputValidator(result, moveAsString, true, playerRack, board, game, dictionary);
+        if (!validator.Validate())
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
-        WordChoice acceptedWord = getAcceptedWord(result);
+        WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
 
         setTile(result);
 
@@ -50,6 +50,12 @@ public class Player extends AbstractPlayer {
         Location location = getLocation(vertical, startingPoint);
 
         return new Result(tileSelection, vertical, location);
+    }
+    private boolean isVertical(String location) {
+        if (Character.isDigit(location.charAt(0))) {
+            return false;
+        }
+        return true;
     }
     private static boolean validateMoveInput(String moveAsString) {
         String pattern = "[a-zA-Z]+,((\\d{1,2}[a-zA-Z])|([a-zA-Z]\\d{1,2}))";
@@ -71,8 +77,8 @@ public class Player extends AbstractPlayer {
         return moveAsString;
     }
     @Override
-    public void setWildCardIfExists(AbstractPlayer player) {
-        WildCardReturn wcr = player.wildCardExists();
+    public void setWildCardIfExists() {
+        WildCardReturn wcr = playerRack.wildCardExists();
         while (wcr.isWildCard) {
             System.out.println("Do you want to use the wildCard?");
             System.out.println("If you want just say true otherwise false.");
@@ -92,11 +98,11 @@ public class Player extends AbstractPlayer {
             if (answer) {
                 System.out.println("Enter your desired character:" + " ");
                 String wildCardValue = scanner.next();
-                player.getRack().Rack[wcr.index].character = wildCardValue;
-                System.out.println(player.getRack().toString());
+                playerRack.Rack[wcr.index].character = wildCardValue;
+                System.out.println(playerRack.toString());
             } else
                 break;
-            wcr = player.wildCardExists();
+            wcr = playerRack.wildCardExists();
         }
     }
 }

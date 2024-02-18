@@ -1,5 +1,7 @@
 package pij.main.models;
 
+import pij.main.models.MethodReturns.WildCardReturn;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -15,12 +17,10 @@ public class TileRack {
         }
         return true;
     }
-
     public boolean hasEmpty()
     {
         return Arrays.stream(Rack).anyMatch(Objects::isNull);
     }
-
     public boolean add(Tile tile) {
         for (int i = 0; i < 7; i++) {
             if (Rack[i] == null) {
@@ -30,7 +30,6 @@ public class TileRack {
         }
         return false;
     }
-
     @Override
     public String toString() {
         String m = "";
@@ -47,8 +46,15 @@ public class TileRack {
         }
         return m;
     }
-
     public Tile pick(int index) {
         return Rack[index];
+    }
+    public WildCardReturn wildCardExists() {
+        for (int i = 0; i < Rack.length; i++) {
+            if (Rack[i] != null && Rack[i].character.equals("_")) {
+                return new WildCardReturn(i, true);
+            }
+        }
+        return new WildCardReturn(-1, false);
     }
 }

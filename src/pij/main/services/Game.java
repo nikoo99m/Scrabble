@@ -3,7 +3,6 @@ package pij.main.services;
 import pij.main.exceptions.*;
 import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;
-import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;
@@ -23,24 +22,24 @@ public class Game {
     boolean isOpen;
 
     public Game() throws DefaultBoardNotFoundException {
-        String input = startOfTheGame();
-        board = loadBoard(input);
-        isOpen = setOpenOrClosedGameStates();
+//        String input = getBoardLoadingChoice();
+//        board = loadBoard(input);
+//        isOpen = setOpenOrClosedGameStates();
+
+        board = loadBoard("d");
         bag = new TileBag();
-        Dictionary dictionary = new Dictionary();
+//        players.add(new Player(bag, board, this, "HumanPlayer"));
+//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer"));
 
-//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer"));
-//        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer"));
+        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer1"));
+        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer2"));
 
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer1"));
-        players.add(new ComputerPlayer(bag, board, dictionary, this, "ComputerPlayer2"));
-
-//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer1"));
-//        players.add(new Player(bag, board, dictionary, this, "HumanPlayer2"));
+//        players.add(new Player(bag, board, this, "HumanPlayer1"));
+//        players.add(new Player(bag, board, this, "HumanPlayer2"));
 
     }
 
-    public String startOfTheGame() {
+    private String getBoardLoadingChoice() {
         String userInput = "";
         while (true) {
             try {
@@ -62,7 +61,7 @@ public class Game {
         }
         return userInput;
     }
-    public Board loadBoard(String input) throws DefaultBoardNotFoundException {
+    private Board loadBoard(String input) throws DefaultBoardNotFoundException {
         if (input.equals("d")) {
             try {
                 return BoardHelper.loadBoardFromFile("resources\\defaultBoard.txt");
@@ -87,7 +86,7 @@ public class Game {
             }
         }
     }
-    public boolean setOpenOrClosedGameStates() {
+    private boolean setOpenOrClosedGameStates() {
         while (true) {
             try {
                 System.out.println("Would you like to play an _o_pen or a _c_losed game?");
@@ -114,7 +113,7 @@ public class Game {
 
         board.prettyPrint();
 
-        players.forEach(x -> fillTileRack(x, bag));
+        players.forEach(x -> fillPlayerTileRack(x, bag));
 
         while (true) {
             for (AbstractPlayer player : players) {
@@ -131,10 +130,10 @@ public class Game {
                     System.out.println("It is " + player.name + " turn Your tiles:");
                     System.out.println(player.getRack().toString());
                 }
-                player.setWildCardIfExists(player);
+                player.setWildCardIfExists();
 
                 MoveReturn moveReturn = processPlayerMove(player);
-                fillTileRack(player, bag);
+                fillPlayerTileRack(player, bag);
 
                 ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
 
@@ -195,7 +194,7 @@ public class Game {
             winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
         }
     }
-    private void fillTileRack(AbstractPlayer player, TileBag bag) {
+    private void fillPlayerTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.hasEmpty())
             player.playerRack.add(bag.randomPop());
 

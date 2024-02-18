@@ -5,10 +5,10 @@ import pij.main.models.Location;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.MethodReturns.WordChoice;
+import pij.main.models.Result;
 import pij.main.models.TileBag;
-import pij.main.services.AbstractPlayer;
-import pij.main.services.Board;
-import pij.main.services.Game;
+import pij.main.models.interfaces.Validator;
+import pij.main.utils.GameHelper;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -16,25 +16,25 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ComputerPlayer extends AbstractPlayer {
-    public ComputerPlayer(TileBag tileBag, Board board, Dictionary dictionary, Game game, String name) {
-        super(tileBag, board, dictionary, game, name);
+    public ComputerPlayer(TileBag tileBag, Board board, Game game, String name) {
+        super(tileBag, board, game, name);
     }
 
     @Override
-    public void setWildCardIfExists(AbstractPlayer player) {
+    public void setWildCardIfExists() {
         Random random = new Random();
-        WildCardReturn wcr = player.wildCardExists();
+        WildCardReturn wcr = playerRack.wildCardExists();
 
         while (wcr.isWildCard) {
             int randomIndex = random.nextInt(26);
             char randomChar = (char) ('a' + randomIndex);
-            player.getRack().Rack[wcr.index].character = String.valueOf(randomChar);
+            playerRack.Rack[wcr.index].character = String.valueOf(randomChar);
 
             System.out.println("Computer has decided to use its Wild Card!");
             System.out.println("Computer has chosen the character:" + randomChar);
-            System.out.println(player.getRack().toString());
+            System.out.println(playerRack.toString());
 
-            wcr = player.wildCardExists();
+            wcr = playerRack.wildCardExists();
         }
     }
     @Override
@@ -52,9 +52,10 @@ public class ComputerPlayer extends AbstractPlayer {
 
                     for (boolean isVerticalMove : new boolean[]{true, false}) {
                         Result result = new Result(permutation, isVerticalMove, startingPoint);
-                        if (checkMoveIsValid(result, permutation, false)) {
+
+                        Validator validator =  new PlayerInputValidator(result, permutation, false, playerRack, board, game, dictionary);
+                        if (validator.Validate())
                             return performMove(result);
-                        }
                     }
                 }
             }
@@ -62,7 +63,7 @@ public class ComputerPlayer extends AbstractPlayer {
         return new MoveReturn(MoveReturn.MoveResult.Pass);
     }
     private MoveReturn performMove(Result result) {
-        WordChoice acceptedWord = getAcceptedWord(result);
+        WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
         setTile(result);
 
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
