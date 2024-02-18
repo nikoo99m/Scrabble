@@ -39,7 +39,7 @@ public class Player extends AbstractPlayer {
 
         setTile(result);
 
-        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.tileSelection().length() == 7);
+        return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.tileSelection().length() == 7, result.tileSelection());
     }
     private Result getResult(String moveAsString) {
         String[] parts = moveAsString.split(",");

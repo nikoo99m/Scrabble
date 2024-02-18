@@ -211,7 +211,7 @@ public class Game {
         if (moveReturn.result == MoveReturn.MoveResult.Pass) {
             System.out.println("player " + player.name + " passes the turn.");
         } else {
-            System.out.println("The move is: Word: " + moveReturn.details.word.word +
+            System.out.println("The move is: Word: " + moveReturn.details.tileSelection+
                     " at position " + StringHelper.printLocation(moveReturn.details.location, moveReturn.details.vertical));
             if (isFirstMove)
                 isFirstMove = false;

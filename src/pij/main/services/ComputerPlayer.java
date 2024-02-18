@@ -67,7 +67,7 @@ public class ComputerPlayer extends AbstractPlayer {
         setTile(result);
 
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
-                result.vertical(), result.tileSelection().length() == 7);
+                result.vertical(), result.tileSelection().length() == 7, result.tileSelection());
     }
     private static List<String> generatePermutations(String[] array) {
         List<String> result = new ArrayList<>();
