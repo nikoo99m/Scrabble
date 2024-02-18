@@ -28,11 +28,11 @@ public class Game {
 
         board = loadBoard("d");
         bag = new TileBag();
-//        players.add(new Player(bag, board, this, "HumanPlayer"));
-//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer"));
+        players.add(new Player(bag, board, this, "HumanPlayer"));
+        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer"));
 
-        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer1"));
-        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer2"));
+//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer1"));
+//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer2"));
 
 //        players.add(new Player(bag, board, this, "HumanPlayer1"));
 //        players.add(new Player(bag, board, this, "HumanPlayer2"));

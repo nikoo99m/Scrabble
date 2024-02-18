@@ -74,6 +74,13 @@ public class PlayerInputValidator implements Validator {
             return false;
         }
 
+        boolean immediateParallel = checkIsImmediatelyParallel(result, isHuman);
+        if (immediateParallel) {
+            if (isHuman)
+                System.out.println("Chosen word creates more than one word board.");
+            return false;
+        }
+
         return true;
     }
 
@@ -175,4 +182,46 @@ public class PlayerInputValidator implements Validator {
         }
         return false;
     }
+
+    private boolean checkIsImmediatelyParallel(Result result, boolean isHuman) {
+        if (game.isFirstMove) return false;
+
+        int i = result.location().i;
+        int j = result.location().j;
+        for (int k = 0; k < result.tileSelection().length(); k++) {
+
+            if (board.letter[i][j].tile != null)
+                k = k - 1;
+            else if (hasParallelTileOnBoard(result, i, j))
+                return true;
+
+            if (result.vertical())
+                i++;
+            else
+                j++;
+        }
+
+        return false;
+    }
+
+    private boolean hasParallelTileOnBoard(Result result, int i, int j) {
+        if (!result.vertical()) {
+            if (i - 1 < 0 && board.letter[i + 1][j].tile != null)
+                return true;
+            else if (i + 1 > board.getSize() && board.letter[i - 1][j].tile != null)
+                return true;
+            else if ((i + 1 < board.getSize() && board.letter[i + 1][j].tile != null) ||
+                    (i - 1 > 0 && board.letter[i - 1][j].tile != null))
+                return true;
+        } else {
+            if (j - 1 < 0 && board.letter[i][j + 1].tile != null)
+                return true;
+            else if (j + 1 > board.getSize() && board.letter[i][j - 1].tile != null)
+                return true;
+            else if ((j + 1 < board.getSize() && board.letter[i][j + 1].tile != null) || (j - 1 > 0 && board.letter[i][j - 1].tile != null))
+                return true;
+        }
+        return false;
+    }
+
 }
