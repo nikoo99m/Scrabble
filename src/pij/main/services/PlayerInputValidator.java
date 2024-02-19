@@ -131,8 +131,14 @@ public class PlayerInputValidator implements Validator {
 
         if (game.isFirstMove) {
             Location boardCentre = board.getStartingPoint();
-            if (i == boardCentre.i && j == boardCentre.j)
-                return true;
+            for (int x = 0; x < result.tileSelection().length(); x++) {
+                if (i == boardCentre.i && j == boardCentre.j)
+                    return true;
+                if (result.vertical())
+                    i++;
+                else
+                    j++;
+            }
         }
 
         if ((result.vertical() && i - 1 > 0 && board.letter[i - 1][j].tile != null) ||
