@@ -113,8 +113,8 @@ public class PlayerInputValidator implements Validator {
 
     private boolean ckeckWordChoiceIsInDictionary(Result result) {
         WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
-
         return dictionary.exists(acceptedWord.word);
+//        return true;
     }
 
     private boolean checkIfSelectedTileIsEmpty(Result result) {
@@ -140,6 +140,8 @@ public class PlayerInputValidator implements Validator {
                     j++;
             }
         }
+         i = result.location().i;
+         j = result.location().j;
 
         if ((result.vertical() && i - 1 > 0 && board.letter[i - 1][j].tile != null) ||
                 (!result.vertical() && j - 1 > 0 && board.letter[i][j - 1].tile != null)) {
