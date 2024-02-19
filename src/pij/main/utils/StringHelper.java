@@ -20,8 +20,9 @@ public class StringHelper {
 
     public static String printLocation(Location location, boolean isVertical)
     {
+        String locationString = location.toString();
         if(isVertical)
-            return new StringBuilder(location.toString()).reverse().toString();
+            return locationString.substring(locationString.length() - 1) +  locationString.substring(0, locationString.length() - 1) ;
         else
             return location.toString();
     }
