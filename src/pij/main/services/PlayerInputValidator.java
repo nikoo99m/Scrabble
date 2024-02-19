@@ -114,7 +114,6 @@ public class PlayerInputValidator implements Validator {
     private boolean ckeckWordChoiceIsInDictionary(Result result) {
         WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
         return dictionary.exists(acceptedWord.word);
-//        return true;
     }
 
     private boolean checkIfSelectedTileIsEmpty(Result result) {
@@ -140,8 +139,8 @@ public class PlayerInputValidator implements Validator {
                     j++;
             }
         }
-         i = result.location().i;
-         j = result.location().j;
+        i = result.location().i;
+        j = result.location().j;
 
         if ((result.vertical() && i - 1 > 0 && board.letter[i - 1][j].tile != null) ||
                 (!result.vertical() && j - 1 > 0 && board.letter[i][j - 1].tile != null)) {
@@ -214,19 +213,20 @@ public class PlayerInputValidator implements Validator {
 
     private boolean hasParallelTileOnBoard(Result result, int i, int j) {
         if (!result.vertical()) {
-            if (i - 1 < 0 && board.letter[i + 1][j].tile != null)
+            if (i - 1 <= 0 && board.letter[i + 1][j].tile != null)
                 return true;
             else if (i + 1 > board.getSize() && board.letter[i - 1][j].tile != null)
                 return true;
             else if ((i + 1 < board.getSize() && board.letter[i + 1][j].tile != null) ||
-                    (i - 1 > 0 && board.letter[i - 1][j].tile != null))
+                    (i - 1 >= 0 && board.letter[i - 1][j].tile != null))
                 return true;
         } else {
-            if (j - 1 < 0 && board.letter[i][j + 1].tile != null)
+            if (j - 1 <= 0 && board.letter[i][j + 1].tile != null)
                 return true;
             else if (j + 1 > board.getSize() && board.letter[i][j - 1].tile != null)
                 return true;
-            else if ((j + 1 < board.getSize() && board.letter[i][j + 1].tile != null) || (j - 1 > 0 && board.letter[i][j - 1].tile != null))
+            else if ((j + 1 < board.getSize() && board.letter[i][j + 1].tile != null) ||
+                    (j - 1 >= 0 && board.letter[i][j - 1].tile != null))
                 return true;
         }
         return false;
