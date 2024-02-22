@@ -1,7 +1,6 @@
 package pij.main.services;
 
 import pij.main.exceptions.*;
-import pij.main.models.Dictionary;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
@@ -169,7 +168,7 @@ public class Game {
                 MoveReturn moveReturn = processPlayerMove(player);
                 fillPlayerTileRack(player, bag);
 
-                ScoreHelper.CalculatingplayerScore(board, moveReturn, player);
+                ScoreHelper.calculatingPlayerScore(board, moveReturn, player);
 
                 System.out.println("player " + player.name + " score is:" + player.getScore());
 

@@ -6,7 +6,6 @@ import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.Squares.BracketSquare;
 import pij.main.models.Squares.Square;
 import pij.main.models.Squares.StandardSquare;
-import pij.main.services.Player;
 
 import java.util.ArrayList;
 /**
@@ -20,7 +19,7 @@ public class ScoreHelper {
      * @param moveReturn the result of the player's move
      * @param player     the player whose score is being calculated
      */
-    public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, AbstractPlayer player) {
+    public static void calculatingPlayerScore(Board board, MoveReturn moveReturn, AbstractPlayer player) {
 
         int score = 0;
         if (moveReturn.result == MoveReturn.MoveResult.Done) {
