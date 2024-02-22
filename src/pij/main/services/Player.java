@@ -9,13 +9,18 @@ import pij.main.utils.GameHelper;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/**
+ * Represents a player in the game.
+ */
 public class Player extends AbstractPlayer {
 
     public Player(TileBag tileBag, Board board, Game game, String name) {
         super(tileBag, board, game, name);
     }
-
+    /**
+     * Determines the player's move based on user input.
+     * @return the result of the move
+     */
     @Override
     public MoveReturn move() {
 
@@ -41,6 +46,12 @@ public class Player extends AbstractPlayer {
 
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done, result.vertical(), result.tileSelection().length() == 7, result.tileSelection());
     }
+    /**
+     * Extracts move details from the user input string.
+     *
+     * @param moveAsString the user input string
+     * @return the move result
+     */
     private Result getResult(String moveAsString) {
         String[] parts = moveAsString.split(",");
         String tileSelection = parts[0];
@@ -51,12 +62,23 @@ public class Player extends AbstractPlayer {
 
         return new Result(tileSelection, vertical, location);
     }
+    /**
+     * Determines if the given location string represents a vertical move or not based on it is starting with number or character.
+     *
+     * @param location the location string
+     * @return true if the location is vertical, false otherwise
+     */
     private boolean isVertical(String location) {
         if (Character.isDigit(location.charAt(0))) {
             return false;
         }
         return true;
     }
+    /**
+     * Checks if the user input for a move is valid.
+     * @param moveAsString the user input string
+     * @return true if the input is valid, false otherwise
+     */
     private static boolean validateMoveInput(String moveAsString) {
         String pattern = "[a-zA-Z]+,((\\d{1,2}[a-zA-Z])|([a-zA-Z]\\d{1,2}))";
         if (!moveAsString.matches(pattern)) {
@@ -70,12 +92,19 @@ public class Player extends AbstractPlayer {
         }
         return true;
     }
+    /**
+     * Gets user input for the player's move.
+     * @return the user input string
+     */
     private static String getUserInput() {
         System.out.println("Please enter your move in the format: \"word,square\" (without the quotes)");
         Scanner scan = new Scanner(System.in);
         String moveAsString = scan.nextLine();
         return moveAsString;
     }
+    /**
+     * Sets the wildcard character if it exists in the player's rack.
+     */
     @Override
     public void setWildCardIfExists() {
         WildCardReturn wcr = playerRack.wildCardExists();
