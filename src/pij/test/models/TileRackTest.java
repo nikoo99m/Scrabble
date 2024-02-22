@@ -3,6 +3,7 @@ package pij.test.models;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.TileRack;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,5 +61,33 @@ public class TileRackTest {
         boolean hasEmpty = rack.hasEmpty();
         //assert
         assertFalse(hasEmpty);
+    }
+
+    @Test
+    void checkIsTrueIfTileRackHasTilesWithWildCards()
+    {
+        //arrange
+        String rackAsString = "{ \"Rack\": [ { \"character\": \"L\", \"value\": 1 }, { \"character\": \"_\", \"value\": 4 }, { \"character\": \"L\", \"value\": 1 }, { \"character\": \"D\", \"value\": 3 }, { \"character\": \"A\", \"value\": 1 }, { \"character\": \"R\", \"value\": 1 }, { \"character\": \"G\", \"value\": 2 } ] }";
+        Gson gson = new Gson();
+        // Parse the JSON string back into the object
+        TileRack rack = gson.fromJson(rackAsString, TileRack.class);
+        //action
+        WildCardReturn wildCardReturn = rack.wildCardExists();
+        //assert
+        assertTrue(wildCardReturn.isWildCard);
+    }
+
+    @Test
+    void checkIsFalseIfTileRackHasNoTilesWithWildCards()
+    {
+        //arrange
+        String rackAsString = "{ \"Rack\": [ { \"character\": \"L\", \"value\": 1 }, { \"character\": \"W\", \"value\": 4 }, { \"character\": \"L\", \"value\": 1 }, { \"character\": \"D\", \"value\": 3 }, { \"character\": \"A\", \"value\": 1 }, { \"character\": \"R\", \"value\": 1 }, { \"character\": \"G\", \"value\": 2 } ] }";
+        Gson gson = new Gson();
+        // Parse the JSON string back into the object
+        TileRack rack = gson.fromJson(rackAsString, TileRack.class);
+        //action
+        WildCardReturn wildCardReturn = rack.wildCardExists();
+        //assert
+        assertFalse(wildCardReturn.isWildCard);
     }
 }
