@@ -8,6 +8,9 @@ import pij.main.models.interfaces.Validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class represents that there are mutual methods between player and computer player class that some of them may have different implementation.
+ */
 public abstract class AbstractPlayer {
     public TileRack playerRack;
     public TileBag tileBag;
@@ -16,6 +19,7 @@ public abstract class AbstractPlayer {
     public String name;
     protected Game game;
     protected Dictionary dictionary = new Dictionary();
+
     public AbstractPlayer(TileBag tileBag, Board board, Game game, String name) {
         playerRack = new TileRack();
         this.tileBag = tileBag;
@@ -24,16 +28,40 @@ public abstract class AbstractPlayer {
         this.name = name;
     }
 
-    //region player behaviour
+
+    /**
+     * Increases the player's score by the specified amount.
+     *
+     * @param score the amount by which to increase the player's score
+     */
     public void setScore(int score) {
         this.score += score;
     }
+
+    /**
+     * Retrieves the player's tile rack.
+     *
+     * @return the player's tile rack
+     */
     public TileRack getRack() {
         return playerRack;
     }
+
+    /**
+     * Retrieves the player's current score.
+     *
+     * @return the player's current score
+     */
     public int getScore() {
         return score;
     }
+
+    /**
+     * Retrieves a tile from the player's rack.
+     *
+     * @param c the character representing the tile to fetch
+     * @return the tile fetched from the rack
+     */
     public Tile fetchTileFromRack(String c) {
         for (int i = 0; i < playerRack.Rack.length; i++) {
             Tile tile = playerRack.Rack[i];
@@ -44,6 +72,12 @@ public abstract class AbstractPlayer {
         }
         throw new RuntimeException("Could not find player's choice in Rack.");
     }
+
+    /**
+     * Sets the tiles on the board based on the player's move.
+     *
+     * @param result the result of the player's move
+     */
     protected void setTile(Result result) {
         int m = 0;
         int i = result.location().i;
@@ -62,25 +96,33 @@ public abstract class AbstractPlayer {
             }
         }
     }
+
+    /**
+     * Abstract method to determine the player's move which has different implementation in subClasses.
+     *
+     * @return the result of the move
+     */
     public abstract MoveReturn move();
+
+    /**
+     * Abstract method to handle the setting of wildcard characters if they exist in the player's rack.
+     */
     public abstract void setWildCardIfExists();
 
-    //endregion
-
-    //region player's input validation
-
-    //endregion
-
-    //region not sure!
+    /**
+     * Retrieves the starting location based on the input string and orientation.
+     *
+     * @param inputString    the input string representing the location
+     * @param useNumberFirst determines whether the start of the input string is the number or character.
+     * @return the starting location
+     */
     private Location getStartingLocation(String inputString, boolean useNumberFirst) {
         Pattern pattern = Pattern.compile("([a-zA-Z]+)([0-9]+)|([0-9]+)([a-zA-Z]+)");
 
-        // Create a Matcher object
         Matcher matcher = pattern.matcher(inputString);
 
-        // Check if the pattern matches the input string
         if (matcher.matches()) {
-            // Extract the number and character
+
             String numberPart;
             String characterPart;
 
@@ -92,12 +134,20 @@ public abstract class AbstractPlayer {
                 characterPart = matcher.group(1);
             }
 
-            // Create a Location object with the specified ordering
             return new Location(numberPart, characterPart);
         }
 
         throw new RuntimeException("No location found.");
     }
+
+    /**
+     * Retrieves the location based on the specified orientation and starting point.
+     *
+     * @param vertical      determines whether the move is vertical or not
+     * @param startingPoint the starting point of the move
+     * @return the location of the move
+     */
+
     protected Location getLocation(boolean vertical, String startingPoint) {
         Location location;
         if (!vertical) {
@@ -107,9 +157,6 @@ public abstract class AbstractPlayer {
         }
         return location;
     }
-    //endregion
 
-    //region
-    //endregion
 
 }
