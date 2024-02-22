@@ -9,9 +9,17 @@ import pij.main.models.Squares.StandardSquare;
 import pij.main.services.Player;
 
 import java.util.ArrayList;
-
+/**
+ * This class provides utility methods for calculating scores in the game.
+ */
 public class ScoreHelper {
-
+    /**
+     * Calculates the score for a player based on their move and updates the player's score accordingly.
+     *
+     * @param board      the game board
+     * @param moveReturn the result of the player's move
+     * @param player     the player whose score is being calculated
+     */
     public static void CalculatingplayerScore(Board board, MoveReturn moveReturn, AbstractPlayer player) {
 
         int score = 0;
@@ -48,7 +56,11 @@ public class ScoreHelper {
         player.setScore(score);
 
     }
-
+    /**
+     * Updates the scores of all players at the end of the game by applying penalties for tiles left in their rack.
+     *
+     * @param players the list of players
+     */
     public static void updateScoresAtTheEndOfGame(ArrayList<AbstractPlayer> players) {
         for (AbstractPlayer player : players) {
             int penalty = 0;
