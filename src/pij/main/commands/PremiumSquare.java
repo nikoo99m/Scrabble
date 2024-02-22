@@ -3,7 +3,7 @@ package pij.main.commands;
 import pij.main.services.Board;
 import pij.main.exceptions.InvalidInputFormatAsPremiumFieldException;
 import pij.main.exceptions.OutOfRangeBoardValueException;
-import pij.main.models.Squares.Square;
+import pij.main.models.squares.Square;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

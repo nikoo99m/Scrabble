@@ -1,4 +1,4 @@
-package pij.main.models.Squares;
+package pij.main.models.squares;
 
 import pij.main.utils.StringHelper;
 /**

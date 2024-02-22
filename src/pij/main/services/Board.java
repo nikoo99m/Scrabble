@@ -1,13 +1,8 @@
 package pij.main.services;
 
 import pij.main.models.Location;
-import pij.main.models.Squares.BracketSquare;
-import pij.main.models.Squares.CurlySquare;
-import pij.main.models.Squares.Square;
-import pij.main.models.Squares.StandardSquare;
+import pij.main.models.squares.Square;
 import pij.main.utils.StringHelper;
-
-import java.util.Random;
 
 /**
  * Represents the game board consisting of squares.

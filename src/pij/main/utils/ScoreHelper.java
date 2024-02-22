@@ -3,9 +3,9 @@ package pij.main.utils;
 import pij.main.services.AbstractPlayer;
 import pij.main.services.Board;
 import pij.main.models.methodReturns.MoveReturn;
-import pij.main.models.Squares.BracketSquare;
-import pij.main.models.Squares.Square;
-import pij.main.models.Squares.StandardSquare;
+import pij.main.models.squares.BracketSquare;
+import pij.main.models.squares.Square;
+import pij.main.models.squares.StandardSquare;
 
 import java.util.ArrayList;
 /**

@@ -1,8 +1,8 @@
 package pij.main.commands;
 
 import pij.main.services.Board;
-import pij.main.models.Squares.CurlySquare;
-import pij.main.models.Squares.Square;
+import pij.main.models.squares.CurlySquare;
+import pij.main.models.squares.Square;
 
 public class SetCurlySquare extends PremiumSquare
 {
