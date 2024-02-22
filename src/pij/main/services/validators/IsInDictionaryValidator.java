@@ -1,7 +1,7 @@
 package pij.main.services.validators;
 
 import pij.main.models.Dictionary;
-import pij.main.models.MethodReturns.WordChoice;
+import pij.main.models.methodReturns.WordChoice;
 import pij.main.models.Result;
 import pij.main.models.interfaces.Validator;
 import pij.main.services.Board;

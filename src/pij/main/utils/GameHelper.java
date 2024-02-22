@@ -1,7 +1,7 @@
 package pij.main.utils;
 
 import pij.main.models.Location;
-import pij.main.models.MethodReturns.WordChoice;
+import pij.main.models.methodReturns.WordChoice;
 import pij.main.models.Result;
 import pij.main.services.Board;
 

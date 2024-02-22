@@ -1,8 +1,7 @@
 package pij.main.models;
 
-import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.models.methodReturns.WildCardReturn;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 /**

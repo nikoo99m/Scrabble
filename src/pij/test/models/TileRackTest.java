@@ -1,9 +1,8 @@
 package pij.test.models;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pij.main.models.MethodReturns.WildCardReturn;
+import pij.main.models.methodReturns.WildCardReturn;
 import pij.main.models.TileRack;
 
 import static org.junit.jupiter.api.Assertions.*;

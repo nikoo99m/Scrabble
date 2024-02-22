@@ -1,4 +1,4 @@
-package pij.main.models.MethodReturns;
+package pij.main.models.methodReturns;
 
 public class CheckIsInDictionaryReturn {
     public String acceptedWord;

@@ -1,7 +1,7 @@
 package pij.main.services;
 
 import pij.main.exceptions.*;
-import pij.main.models.MethodReturns.MoveReturn;
+import pij.main.models.methodReturns.MoveReturn;
 import pij.main.models.TileBag;
 import pij.main.utils.BoardHelper;
 import pij.main.utils.ScoreHelper;

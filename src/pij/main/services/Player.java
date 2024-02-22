@@ -1,9 +1,9 @@
 package pij.main.services;
 
 import pij.main.models.*;
-import pij.main.models.MethodReturns.MoveReturn;
-import pij.main.models.MethodReturns.WildCardReturn;
-import pij.main.models.MethodReturns.WordChoice;
+import pij.main.models.methodReturns.MoveReturn;
+import pij.main.models.methodReturns.WildCardReturn;
+import pij.main.models.methodReturns.WordChoice;
 import pij.main.models.interfaces.Validator;
 import pij.main.services.validators.PlayerInputValidator;
 import pij.main.utils.GameHelper;
