@@ -66,6 +66,7 @@ public class TileBag {
 
         return poppedElement;
     }
+    public HashSet<Tile> getBag() { return Bag;}
 }
 
 
