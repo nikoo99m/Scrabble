@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-
+/**
+ * Represents a bag of tiles used in a game.
+ * <p>
+ * This class contains a collection of tiles, each represented by a character and a value.
+ * Tiles can be randomly drawn from the bag.
+ */
 public class TileBag {
     int[] values;
     char[] letters;
     HashSet<Tile> Bag = new HashSet<>();
 
+    /**
+     * Constructs a new TileBag object with a predefined set of tiles and their quantities.
+     */
     public TileBag() {
 
         char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
@@ -28,28 +36,32 @@ public class TileBag {
         }
     }
 
-    public boolean isEmpty()
-    {
+    /**
+     * Checks if the tile bag is empty.
+     *
+     * @return true if the bag is empty, false otherwise
+     */
+    public boolean isEmpty() {
         return Bag.isEmpty();
     }
 
-    // Perform random pop
+    /**
+     * Retrieves a randomly selected tile from the bag.
+     *
+     * @return a Tile randomly selected from the bag, or null if the bag is empty
+     */
     public Tile randomPop() {
         if (Bag.isEmpty()) {
-            return null; // Return null if the collection is empty
+            return null;
         }
 
-        // Convert HashSet to ArrayList for indexing
         ArrayList<Tile> arrayList = new ArrayList<>(Bag);
 
-        // Generate a random index
         Random random = new Random();
         int randomIndex = random.nextInt(arrayList.size());
 
-        // Get and remove the element at the random index
         Tile poppedElement = arrayList.remove(randomIndex);
 
-        // Update the HashSet with the modified ArrayList
         Bag = new HashSet<>(arrayList);
 
         return poppedElement;
