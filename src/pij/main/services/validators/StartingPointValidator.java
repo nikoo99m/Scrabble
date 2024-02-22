@@ -28,7 +28,7 @@ public class StartingPointValidator implements Validator {
     public boolean validate() {
         int i = startingPoint.i;
         int j = startingPoint.j;
-        if (i > board.getSize() - 1 || j > board.getSize() - 1) {
+        if (i > board.getSize() - 1 || j > board.getSize() - 1  || i < 0  || j < 0) {
             if (isHuman)
                 System.out.println("You can not play with this starting point : " + StringHelper.printLocation(result.location(), result.vertical()));
             return false;
