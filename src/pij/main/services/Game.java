@@ -12,6 +12,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * The Game class represents the SkraBBKle game, managing the game flow and player interactions.
+ * <p>
+ * An instance contains
+ * - List of players participating in the game.
+ * - List of moves made during the game.
+ * - The game board.
+ * - Flag indicating whether it's the first move of the game.
+ * - The tile bag containing tiles.
+ * - Flag indicating whether the game is open or closed.
+ */
 public class Game {
 
     static ArrayList<AbstractPlayer> players = new ArrayList<AbstractPlayer>();
@@ -22,11 +33,11 @@ public class Game {
     boolean isOpen;
 
     public Game() throws DefaultBoardNotFoundException {
-//        String input = getBoardLoadingChoice();
-//        board = loadBoard(input);
-//        isOpen = setOpenOrClosedGameStates();
+        String input = getBoardLoadingChoice();
+        board = loadBoard(input);
+        isOpen = setOpenOrClosedGameStates();
 
-        board = loadBoard("d");
+        board = loadBoard(input);
         bag = new TileBag();
         players.add(new Player(bag, board, this, "HumanPlayer"));
         players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer"));
@@ -39,6 +50,11 @@ public class Game {
 
     }
 
+    /**
+     * Prompts the user to choose between loading a board or using the default board.
+     *
+     * @return the user's choice
+     */
     private String getBoardLoadingChoice() {
         String userInput = "";
         while (true) {
@@ -61,6 +77,14 @@ public class Game {
         }
         return userInput;
     }
+
+    /**
+     * Loads the board based on the user's choice.
+     *
+     * @param input the user's choice
+     * @return the loaded board
+     * @throws DefaultBoardNotFoundException if the default board file is not found
+     */
     private Board loadBoard(String input) throws DefaultBoardNotFoundException {
         if (input.equals("d")) {
             try {
@@ -86,6 +110,12 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Prompts the user to choose between an open or closed game state.
+     *
+     * @return true if the game is open, false if closed
+     */
     private boolean setOpenOrClosedGameStates() {
         while (true) {
             try {
@@ -109,6 +139,10 @@ public class Game {
         }
 
     }
+
+    /**
+     * Starts the game loop and manages player turns.
+     */
     public void play() {
 
         board.prettyPrint();
@@ -151,6 +185,11 @@ public class Game {
 //            }
         }
     }
+    /**
+     * Checks whether the game has ended.
+     *
+     * @return true if the game has ended, false otherwise
+     */
     private boolean hasGameEnded() {
         boolean aPlayerHasAnEmptyRack = players.stream()
                 .anyMatch(player -> player.getRack().isEmpty());
@@ -180,6 +219,9 @@ public class Game {
 
         return false;
     }
+    /**
+     * Announces the result of the game, including each player's final score and the overall winner.
+     */
     private void announceGameResult() {
         for (AbstractPlayer player : players) {
             System.out.println(player.name + "'s final score is: " + player.getScore());
@@ -194,6 +236,12 @@ public class Game {
             winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
         }
     }
+    /**
+     * Fills a player's tile rack with tiles from the tile bag until the rack is full or the bag is empty.
+     *
+     * @param player the player whose tile rack is being filled
+     * @param bag    the tile bag containing tiles to draw from
+     */
     private void fillPlayerTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.hasEmpty())
             player.playerRack.add(bag.randomPop());
@@ -201,6 +249,12 @@ public class Game {
         //player.playerRack.Rack[0].character = "_";
 //        System.out.println(player.getRack().toString());
     }
+    /**
+     * Processes a player's move, handling failed moves and updating the list of moves.
+     *
+     * @param player the player making the move
+     * @return the move result
+     */
     private MoveReturn processPlayerMove(AbstractPlayer player) {
         MoveReturn moveReturn = player.move();
 
@@ -211,7 +265,7 @@ public class Game {
         if (moveReturn.result == MoveReturn.MoveResult.Pass) {
             System.out.println("player " + player.name + " passes the turn.");
         } else {
-            System.out.println("The move is: Word: " + moveReturn.details.tileSelection+
+            System.out.println("The move is: Word: " + moveReturn.details.tileSelection +
                     " at position " + StringHelper.printLocation(moveReturn.details.location, moveReturn.details.vertical));
             if (isFirstMove)
                 isFirstMove = false;
