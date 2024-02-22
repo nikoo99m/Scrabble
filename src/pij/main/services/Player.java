@@ -5,6 +5,7 @@ import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
 import pij.main.models.MethodReturns.WordChoice;
 import pij.main.models.interfaces.Validator;
+import pij.main.services.validators.PlayerInputValidator;
 import pij.main.utils.GameHelper;
 
 import java.util.InputMismatchException;
@@ -37,7 +38,7 @@ public class Player extends AbstractPlayer {
         Result result = getResult(moveAsString);
 
         Validator validator =  new PlayerInputValidator(result, moveAsString, true, playerRack, board, game, dictionary);
-        if (!validator.Validate())
+        if (!validator.validate())
             return new MoveReturn(MoveReturn.MoveResult.Failed);
 
         WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);

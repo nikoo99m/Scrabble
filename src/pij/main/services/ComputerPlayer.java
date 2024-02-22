@@ -1,6 +1,5 @@
 package pij.main.services;
 
-import pij.main.models.Dictionary;
 import pij.main.models.Location;
 import pij.main.models.MethodReturns.MoveReturn;
 import pij.main.models.MethodReturns.WildCardReturn;
@@ -8,6 +7,7 @@ import pij.main.models.MethodReturns.WordChoice;
 import pij.main.models.Result;
 import pij.main.models.TileBag;
 import pij.main.models.interfaces.Validator;
+import pij.main.services.validators.PlayerInputValidator;
 import pij.main.utils.GameHelper;
 
 import java.util.Random;
@@ -54,7 +54,7 @@ public class ComputerPlayer extends AbstractPlayer {
                         Result result = new Result(permutation, isVerticalMove, startingPoint);
 
                         Validator validator =  new PlayerInputValidator(result, permutation, false, playerRack, board, game, dictionary);
-                        if (validator.Validate())
+                        if (validator.validate())
                             return performMove(result);
                     }
                 }
