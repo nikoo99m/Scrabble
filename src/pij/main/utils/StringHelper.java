@@ -31,7 +31,6 @@ public class StringHelper {
      * @param isVertical A boolean indicating whether to print in vertical format.
      * @return The string representation of the location.
      */
-
     public static String printLocation(Location location, boolean isVertical) {
         String locationString = location.toString();
         if (isVertical)
