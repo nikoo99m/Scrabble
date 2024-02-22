@@ -9,6 +9,10 @@ import pij.main.models.interfaces.Validator;
 import pij.main.utils.GameHelper;
 import pij.main.utils.StringHelper;
 
+/**
+ * The PlayerInputValidator class validates the input move made by a player.
+ * It checks various conditions to ensure that the move is valid according to the game rules.
+ */
 public class PlayerInputValidator implements Validator {
 
     private Result result;
@@ -29,6 +33,11 @@ public class PlayerInputValidator implements Validator {
         this.dictionary = dictionary;
     }
 
+    /**
+     * Validates the player's move.
+     *
+     * @return true if the move is valid, false otherwise.
+     */
     @Override
     public boolean Validate() {
         return checkMoveIsValid();
@@ -84,6 +93,12 @@ public class PlayerInputValidator implements Validator {
         return true;
     }
 
+    /**
+     * Checks if the tile selection for the move is valid, all the selected tiles are in tileRack or not.
+     *
+     * @param tileSelection The selected tiles for the move.
+     * @return true if the tile selection is valid, false otherwise.
+     */
     public boolean checkTileSelectionIsValid(String tileSelection) {
         for (int j = 0; j < tileSelection.length(); j++) {
             String charr = tileSelection.charAt(j) + "";
@@ -101,6 +116,12 @@ public class PlayerInputValidator implements Validator {
         return true;
     }
 
+    /**
+     * Checks if the starting point of the move is valid.
+     *
+     * @param startingPoint The starting point of the move.
+     * @return true if the starting point is valid, false otherwise.
+     */
     public boolean checkStartingPointIsValid(Location startingPoint) {
         int i = startingPoint.i;
         int j = startingPoint.j;
@@ -110,19 +131,36 @@ public class PlayerInputValidator implements Validator {
 
         return true;
     }
-
+    /**
+     * Checks if the chosen word is in the dictionary.
+     *
+     * @param result The result of the move.
+     * @return true if the chosen word is in the dictionary, false otherwise.
+     */
     private boolean ckeckWordChoiceIsInDictionary(Result result) {
         WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
         return dictionary.exists(acceptedWord.word);
-    }
 
+    }
+    /**
+     * Checks if the selected tile for the move is empty.
+     *
+     * @param result The result of the move.
+     * @return true if the selected tile is empty, false otherwise.
+     */
     private boolean checkIfSelectedTileIsEmpty(Result result) {
         int i = result.location().i;
         int j = result.location().j;
 
         return board.letter[i][j].tile == null;
     }
-
+    /**
+     * Checks if the word placement overlaps with existing tiles on the board.
+     *
+     * @param result  The result of the move.
+     * @param isHuman Indicates whether the player is human or not.
+     * @return true if the word placement overlaps with existing tiles, false otherwise.
+     */
     private boolean checkWordPlacementOverlapsExistingOnBoard(Result result, boolean isHuman) {
 
         int i = result.location().i;
@@ -168,7 +206,12 @@ public class PlayerInputValidator implements Validator {
         }
         return false;
     }
-
+    /**
+     * Checks if the move collides with the edge of the board.
+     *
+     * @param result The result of the move.
+     * @return true if the move collides with the edge of the board, false otherwise.
+     */
     private boolean checkCollidesWithBoardEdge(Result result) {
 
         int boardSize = board.getSize();
@@ -189,7 +232,13 @@ public class PlayerInputValidator implements Validator {
         }
         return false;
     }
-
+    /**
+     * Checks if the word placement immediately creates parallel words on the board.
+     *
+     * @param result  The result of the move.
+     * @param isHuman Indicates whether the player is human or not.
+     * @return true if the word placement immediately creates parallel words, false otherwise.
+     */
     private boolean checkIsImmediatelyParallel(Result result, boolean isHuman) {
         if (game.isFirstMove) return false;
 
@@ -210,7 +259,14 @@ public class PlayerInputValidator implements Validator {
 
         return false;
     }
-
+    /**
+     * Checks if there is a parallel tile on the board at the specified location.
+     *
+     * @param result The result of the move.
+     * @param i      The row index of the location.
+     * @param j      The column index of the location.
+     * @return true if there is a parallel tile on the board, false otherwise.
+     */
     private boolean hasParallelTileOnBoard(Result result, int i, int j) {
         if (!result.vertical()) {
             if (i - 1 <= 0 && board.letter[i + 1][j].tile != null)
