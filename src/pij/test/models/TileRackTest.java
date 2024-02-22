@@ -33,4 +33,32 @@ public class TileRackTest {
         //assert
         assertFalse(isEmpty);
     }
+
+    @Test
+    void checkIsTrueIfTileRackHasEmptyTiles()
+    {
+        //arrange
+        String rackAsString = "{ \"Rack\": [ { \"character\": \"L\", \"value\": 1 }, { \"character\": \"W\", \"value\": 4 }, { \"character\": \"L\", \"value\": 1 }, null, { \"character\": \"A\", \"value\": 1 }, { \"character\": \"R\", \"value\": 1 }, { \"character\": \"G\", \"value\": 2 } ] }";
+        Gson gson = new Gson();
+        // Parse the JSON string back into the object
+        TileRack rack = gson.fromJson(rackAsString, TileRack.class);
+        //action
+        boolean hasEmpty = rack.hasEmpty();
+        //assert
+        assertTrue(hasEmpty);
+    }
+
+    @Test
+    void checkIsFalseIfTileRackHasEmptyTiles()
+    {
+        //arrange
+        String rackAsString = "{ \"Rack\": [ { \"character\": \"L\", \"value\": 1 }, { \"character\": \"W\", \"value\": 4 }, { \"character\": \"L\", \"value\": 1 }, { \"character\": \"D\", \"value\": 3 }, { \"character\": \"A\", \"value\": 1 }, { \"character\": \"R\", \"value\": 1 }, { \"character\": \"G\", \"value\": 2 } ] }";
+        Gson gson = new Gson();
+        // Parse the JSON string back into the object
+        TileRack rack = gson.fromJson(rackAsString, TileRack.class);
+        //action
+        boolean hasEmpty = rack.hasEmpty();
+        //assert
+        assertFalse(hasEmpty);
+    }
 }
