@@ -13,9 +13,16 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * This class provides utility methods to assist with loading and processing a game board from a file.
+ */
 public class BoardHelper {
-
+    /**
+     * Reads lines from a file and returns them as a list of strings.
+     *
+     * @param filePath The path to the file.
+     * @return A list of strings representing lines read from the file.
+     */
     private static List<String> readLinesFromFile(String filePath) {
         List<String> lines = new ArrayList<>();
         try {
@@ -34,7 +41,17 @@ public class BoardHelper {
         return lines;
     }
 
-
+    /**
+     * Loads a game board from a file.
+     *
+     * @param filePath The path to the file containing the board data.
+     * @return The loaded Board object.
+     * @throws InvalidValueFormatForBoardSizeException When the format of the board size value in the file is invalid.
+     * @throws InvalidBoardSizeException               When the size of the board specified in the file is invalid.
+     * @throws BoardContentSizeMismatchException       When the size of the board content does not match the specified size.
+     * @throws InvalidInputFormatAsPremiumFieldException When the input format for a premium field is invalid.
+     * @throws OutOfRangeBoardValueException           When a value on the board is out of the valid range.
+     */
     public static Board loadBoardFromFile(String filePath) throws InvalidValueFormatForBoardSizeException,
             InvalidBoardSizeException, BoardContentSizeMismatchException,
             InvalidInputFormatAsPremiumFieldException, OutOfRangeBoardValueException {
@@ -50,7 +67,13 @@ public class BoardHelper {
 
             return board;
     }
-
+    /**
+     * Extracts the size of the board from the list of lines read from the file.
+     *
+     * @param lines The list of lines read from the file.
+     * @return The size of the board.
+     * @throws InvalidValueFormatForBoardSizeException When the format of the board size value is invalid.
+     */
     private static int getSize(List<String> lines) throws InvalidValueFormatForBoardSizeException {
         String sizeAsString = lines.get(0);
         int size;
@@ -61,7 +84,16 @@ public class BoardHelper {
         }
         return size;
     }
-
+    /**
+     * Sets the fields of the board based on the content read from the file.
+     *
+     * @param boardContentLines The content of the board read from the file.
+     * @param board             The Board object to set fields on.
+     * @param size              The size of the board.
+     * @throws BoardContentSizeMismatchException       When the size of the board content does not match the specified size.
+     * @throws OutOfRangeBoardValueException           When a value on the board is out of the valid range.
+     * @throws InvalidInputFormatAsPremiumFieldException When the input format for a premium field is invalid.
+     */
     private static void setBoardFields(List<String> boardContentLines, Board board, int size)
             throws BoardContentSizeMismatchException, OutOfRangeBoardValueException, InvalidInputFormatAsPremiumFieldException {
 
@@ -90,7 +122,14 @@ public class BoardHelper {
             }
         }
     }
-
+    /**
+     * Creates an empty Board object with the specified size.
+     *
+     * @param size The size of the board.
+     * @return An empty Board object with the specified size.
+     * @throws InvalidBoardSizeException               When the size of the board is invalid.
+     * @throws InvalidValueFormatForBoardSizeException When the format of the board size value is invalid.
+     */
     private static Board getEmptyBoard(int size)
             throws InvalidBoardSizeException, InvalidValueFormatForBoardSizeException {
 
@@ -102,7 +141,12 @@ public class BoardHelper {
         }
         return board;
     }
-
+    /**
+     * Extracts fields from a string representing a line of the board content.
+     *
+     * @param input The input string representing a line of the board content.
+     * @return A list of strings representing the extracted fields.
+     */
     private static List<String> extractFields(String input) {
         String pattern = "\\.|\\(-?\\d+\\)|\\{-?\\d+\\}";
 
