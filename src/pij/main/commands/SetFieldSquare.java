@@ -5,8 +5,11 @@ import pij.main.exceptions.InvalidInputFormatAsPremiumFieldException;
 import pij.main.exceptions.OutOfRangeBoardValueException;
 import pij.main.models.squares.Square;
 
-public abstract class SetFieldSquare
-{
+/**
+ * Abstract class representing a square on the game board.
+ * Subclasses are responsible for creating the specific type of square.
+ */
+public abstract class SetFieldSquare {
     private final Board board;
     private final int i;
     private final int j;
@@ -17,8 +20,22 @@ public abstract class SetFieldSquare
         this.j = j;
     }
 
+    /**
+     * Abstract method to create the specific type of square.
+     *
+     * @return The created square.
+     * @throws InvalidInputFormatAsPremiumFieldException If the input format of the field is invalid.
+     * @throws OutOfRangeBoardValueException             If the field value is out of range.
+     */
     protected abstract Square createSquare()
             throws InvalidInputFormatAsPremiumFieldException, OutOfRangeBoardValueException;
+
+    /**
+     * Sets the field square on the game board.
+     *
+     * @throws InvalidInputFormatAsPremiumFieldException If the input format of the field is invalid.
+     * @throws OutOfRangeBoardValueException             If the field value is out of range.
+     */
     public void setFieldSquare()
             throws InvalidInputFormatAsPremiumFieldException, OutOfRangeBoardValueException {
         board.letter[i][j] = createSquare();
