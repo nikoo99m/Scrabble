@@ -2,7 +2,10 @@ package pij.main.services.validators;
 
 import pij.main.models.TileRack;
 import pij.main.models.interfaces.Validator;
-
+/**
+ * Validator implementation for checking the validity of tile selection for a move in the game.
+ * It verifies whether all selected tiles for the move are available in the player's tile rack.
+ */
 public class TileSelectionValidator implements Validator {
     private String tileSelection;
     private TileRack playerRack;
