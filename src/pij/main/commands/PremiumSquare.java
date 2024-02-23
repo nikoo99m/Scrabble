@@ -7,8 +7,11 @@ import pij.main.models.squares.Square;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-public abstract class PremiumSquare extends  SetFieldSquare
+/**
+ * Abstract class representing a premium square on the game board.
+ * Premium squares provide special bonuses or penalties to players.
+ */
+public abstract class PremiumSquare extends SetFieldSquare
 {
     private final String field;
     private final String pattern;
@@ -17,7 +20,17 @@ public abstract class PremiumSquare extends  SetFieldSquare
         this.field = field;
         this.pattern = pattern;
     }
+
     public abstract Square getPremiumSquare(int number);
+    /**
+     * Creates the premium square based on the provided field value.
+     * This method extracts the premium value from the field using the specified pattern,
+     * validates the extracted value, and creates the appropriate premium square.
+     *
+     * @return The created premium square.
+     * @throws InvalidInputFormatAsPremiumFieldException If the input format of the premium field is invalid.
+     * @throws OutOfRangeBoardValueException             If the premium value is out of range.
+     */
     @Override
     protected Square createSquare()
             throws InvalidInputFormatAsPremiumFieldException, OutOfRangeBoardValueException {
@@ -35,7 +48,7 @@ public abstract class PremiumSquare extends  SetFieldSquare
             throw new InvalidInputFormatAsPremiumFieldException(numberString);
         }
 
-        // Validate if number falls within the range -9 to 99
+
         if (number >= -9 && number <= 99) {
             return getPremiumSquare(number);
         } else {
