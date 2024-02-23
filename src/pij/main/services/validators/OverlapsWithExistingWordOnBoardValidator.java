@@ -6,6 +6,10 @@ import pij.main.models.interfaces.Validator;
 import pij.main.services.Board;
 import pij.main.services.Game;
 
+/**
+ * Validator implementation for checking if a word placement overlaps with existing tiles on the game board.
+ * It also verifies if the selected location overlaps with the center of the board in the first move.
+ */
 public class OverlapsWithExistingWordOnBoardValidator implements Validator {
     private Result result;
     private Game game;
@@ -21,6 +25,7 @@ public class OverlapsWithExistingWordOnBoardValidator implements Validator {
 
     /**
      * Checks if the word placement overlaps with existing tiles on the board.
+     * And checks selected location overlaps with the centre of board in the first move or not.
      *
      * @return true if the word placement overlaps with existing tiles, false otherwise.
      */
