@@ -3,7 +3,10 @@ package pij.main.services.validators;
 import pij.main.models.Result;
 import pij.main.models.interfaces.Validator;
 import pij.main.services.Board;
-
+/**
+ * Validator implementation for checking if a player's move exceeds the boundary of the game board.
+ * It ensures that the placement of tiles resulting from the move does not go beyond the edge of the board.
+ */
 public class PlayerMoveDoesNotExceedsBoardBoundaryValidator implements Validator {
     private Board board;
     private Result result;
