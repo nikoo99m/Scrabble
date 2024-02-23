@@ -14,12 +14,18 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Represents a computer player.
+ * This player is controlled by the computer algorithm and performs moves automatically.
+ */
 public class ComputerPlayer extends AbstractPlayer {
     public ComputerPlayer(TileBag tileBag, Board board, Game game, String name) {
         super(tileBag, board, game, name);
     }
-
+    /**
+     * Sets the character for a wild card tile if it exists in the player's rack.
+     * Randomly selects a character and replaces the wild card.
+     */
     @Override
     public void setWildCardIfExists() {
         Random random = new Random();
@@ -37,6 +43,11 @@ public class ComputerPlayer extends AbstractPlayer {
             wcr = playerRack.wildCardExists();
         }
     }
+    /**
+     * Determines move for the computer player and performs it on the game board.
+     *
+     * @return The result of the move, including information about the word formed and the move status.
+     */
     @Override
     public MoveReturn move() {
         String[] array = Arrays.stream(playerRack.Rack)
@@ -62,6 +73,12 @@ public class ComputerPlayer extends AbstractPlayer {
         }
         return new MoveReturn(MoveReturn.MoveResult.Pass);
     }
+    /**
+     * Performs the move described.
+     *
+     * @param result The result of the move, including information about the word formed and the move status.
+     * @return The outcome of the move.
+     */
     private MoveReturn performMove(Result result) {
         WordChoice acceptedWord = GameHelper.getAcceptedWord(result, board);
         setTile(result);
@@ -69,6 +86,12 @@ public class ComputerPlayer extends AbstractPlayer {
         return new MoveReturn(acceptedWord, result.location(), MoveReturn.MoveResult.Done,
                 result.vertical(), result.tileSelection().length() == 7, result.tileSelection());
     }
+    /**
+     * Generates all possible permutations of the characters in the given array.
+     *
+     * @param array The array of characters to generate permutations from.
+     * @return A list containing all generated permutations.
+     */
     private static List<String> generatePermutations(String[] array) {
         List<String> result = new ArrayList<>();
         for (int len = 1; len <= array.length; len++) {
@@ -76,6 +99,15 @@ public class ComputerPlayer extends AbstractPlayer {
         }
         return result;
     }
+    /**
+     * Helper method for generating permutations recursively.
+     *
+     * @param array The array of characters to generate permutations from.
+     * @param used An array indicating whether a character has been used in the current permutation.
+     * @param current The current permutation being generated.
+     * @param result The list to store generated permutations.
+     * @param len The length of permutations to generate.
+     */
     private static void generatePermutations(String[] array, boolean[] used, StringBuilder current, List<String> result, int len) {
         if (current.length() == len) {
             result.add(current.toString());
