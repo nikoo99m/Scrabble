@@ -7,11 +7,10 @@ import pij.main.services.Game;
 public class Main {
 
     public static void main(String[] args) {
-        Game game = null;
         try {
-            game = new Game();
+            Game game = new Game();
             game.play();
-        } catch (DefaultBoardNotFoundException e) {
+        } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
     }
