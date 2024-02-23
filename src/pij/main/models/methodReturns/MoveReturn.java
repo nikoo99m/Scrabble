@@ -1,7 +1,9 @@
 package pij.main.models.methodReturns;
 
 import pij.main.models.Location;
-
+/**
+ * Represents the result of a move in the game and details about move.
+ */
 public class MoveReturn {
 
     public MoveResult result;
@@ -14,13 +16,18 @@ public class MoveReturn {
     public MoveReturn(MoveResult result) {
         this.result = result;
     }
-
+    /**
+     * The possible outcomes of a move.
+     */
     public enum MoveResult
     {
         Pass,
         Done,
         Failed
     }
+    /**
+     * Represents details about a move, including the wordChoice, its location and...
+     */
     public class MoveDetails {
         public WordChoice word;
         public Location location;
