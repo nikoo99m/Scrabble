@@ -134,7 +134,7 @@ public class BoardHelper {
             throws InvalidBoardSizeException, InvalidValueFormatForBoardSizeException {
 
         Board board = null;
-        if (size > 11 && size < 26) {
+        if (size > 11 && size <= 26) {
             board = new Board(size);
         } else {
             throw new InvalidBoardSizeException(size);
