@@ -38,15 +38,9 @@ public class Game {
 
         board = loadBoard(input);
         bag = new TileBag();
+
         players.add(new Player(bag, board, this, "HumanPlayer"));
         players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer"));
-
-//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer1"));
-//        players.add(new ComputerPlayer(bag, board, this, "ComputerPlayer2"));
-
-//        players.add(new Player(bag, board, this, "HumanPlayer1"));
-//        players.add(new Player(bag, board, this, "HumanPlayer2"));
-
     }
 
     /**
@@ -170,20 +164,16 @@ public class Game {
 
                 ScoreHelper.calculatingPlayerScore(board, moveReturn, player);
 
-                System.out.println("player " + player.name + " score is:" + player.getScore());
+                System.out.println(player.name + " score is:" + player.getScore());
 
                 board.prettyPrint();
 
                 if (hasGameEnded())
                     return;
             }
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
         }
     }
+
     /**
      * Checks whether the game has ended.
      *
@@ -218,6 +208,7 @@ public class Game {
 
         return false;
     }
+
     /**
      * Announces the result of the game, including each player's final score and the overall winner.
      */
@@ -235,6 +226,7 @@ public class Game {
             winner.ifPresent(player -> System.out.println(player.name + " is the winner!"));
         }
     }
+
     /**
      * Fills a player's tile rack with tiles from the tile bag until the rack is full or the bag is empty.
      *
@@ -244,10 +236,8 @@ public class Game {
     private void fillPlayerTileRack(AbstractPlayer player, TileBag bag) {
         while (!bag.isEmpty() && player.playerRack.hasEmpty())
             player.playerRack.add(bag.randomPop());
-
-        //player.playerRack.Rack[0].character = "_";
-//        System.out.println(player.getRack().toString());
     }
+
     /**
      * Processes a player's move, handling failed moves and updating the list of moves.
      *
