@@ -5,7 +5,10 @@ import pij.main.models.Result;
 import pij.main.models.interfaces.Validator;
 import pij.main.services.Board;
 import pij.main.utils.StringHelper;
-
+/**
+ * Validator implementation for checking the validity of the starting point of a move on the game board.
+ * It ensures that the specified starting point is within the bounds of the game board.
+ */
 public class StartingPointValidator implements Validator {
     private Location startingPoint;
     private Board board;
