@@ -1,29 +1,6 @@
-# Please enter your name here:
-Nikoo Moghadam (13919145)
-
-
------------------------------------------------------------------------------
-
-# Please enter your Academic Declaration here:
-I have read and understood the sections of plagiarism in the College Policy on
-academic integrity and misconduct and confirm that the work is my own, with the work
-of others clearly acknowledged. I give my permission to submit my report to the
-plagiarism testing database that the College is using and test it using plagiarism
-detection software, search engines or meta-searching software.
-
-
------------------------------------------------------------------------------
-
-# Description of the coursework: SkraBBKle
-
-## Logistics
-
-On Moodle, behind the "Assessment" tile, you will find information about submission deadlines. You will also find an invitation link for this coursework assignment. To get access to your GitHub Classroom repository with your initial files, you will need to visit the invitation link on Moodle and accept the invitation. You can then pull from/push to this GitHub repository as usual.
-
-
 ## Overview
 
-This coursework takes inspiration from the board game Scrabble, although it has certain differences with the standard [Scrabble game](https://en.wikipedia.org/wiki/Scrabble). To reduce your workload, *SkraBBKle* has some simplification over Scrabble, but also some generalisations.  The game will be played between a **Human player** and a **Computer player**.  However, the board size will be `S x S`, where `S` is an integer number between `11` and `26`, instead of the usual `15 x 15`. (We only set the limit `26`  to avoid visualisation/printing problems for large boards.)
+This project takes inspiration from the board game Scrabble, although it has certain differences with the standard [Scrabble game](https://en.wikipedia.org/wiki/Scrabble). The game will be played between a **Human player** and a **Computer player**.  However, the board size will be `S x S`, where `S` is an integer number between `11` and `26`, instead of the usual `15 x 15`. 
 
 The rules of SkraBBKle have been inspired by the ones available [here](https://www.hasbro.com/common/instruct/Scrabble_\(2003\).pdf) for the Scrabble game.
 
@@ -528,11 +505,6 @@ A move to *play tiles* is indicated by writing the word spelled by the tiles tha
 For example, `OND,f8` says that from the position in column `f` and row `8` on the board, going down, a tile sequence corresponding to the word `OND` should be played, where occupied squares are skipped. Another example is `VLuE,10b`, which says that from position `b10`, going right, a tile sequence corresponding to the word `VLUE` should be played, where a wildcard should be used for the `U` on the board (indicated by the use of the lower-case letter `u`).
 
 
-## User requirements
-
-> **Note: the requirements below are mandatory to follow. You will lose marks if your implementation does not meet these requirements** 
-
-In this coursework, you shall implement a Java program in which a human user shall play SkraBBKle described above against the computer. **The human always makes the first move.**    
 
 ### Initiation
 
@@ -640,7 +612,6 @@ Then the program terminates.
 
 Implement the computer player in such a way that it will always make a move with at least one tile whenever such a move is possible with the given tile rack, board state, and word list.
 
-*Hint:*
 A possible strategy to achieve this goal could be the following:
 
 1.
@@ -648,88 +619,3 @@ For each number `n` of tiles that could be played from the current tile rack (be
 
 2.
 For those cases of part (1) where it is indeed possible to play `n` tiles, go through all combinations of `n` tiles on your rack. If one of them leads to a valid move for the board and the word list, make the move.
-
-*Hint:* Consider implementing first the other parts of the coursework project. While you are getting up and running, a computer player that always passes their move does the job.
-
-
-## Implementation requirements
-
-- The requirements below are mandatory to follow. **You will lose marks** if your implementation does not adhere to these requirements, **even in case your program runs with no errors**.
-
-- Your implementation shall be in **Java 17**.
-
-- The class from which the program is run shall be called `Main.java` and be in the package `pij.main`.
-
-- Your program design shall employ object-oriented principles with suitable definitions of classes/interfaces and using packages, encapsulation, polymorphism, and inheritance as appropriate for this case. 
-
-## Validation
-
-Your submission shall contain 20 (or more) JUnit 5 test cases that test the functionality of your implementation. The test cases should cover a broad range of scenarios.
-
-## Development and Submission
-
-Your code shall be well-structured in terms of visual readability (use indentation, spacing, etc.) and non-redundancy (instead of duplicating long pieces of code, introduce your own methods). Follow sensible naming conventions. Your code shall be well documented.
-
-You shall accept this coursework assignment via its invitation link, which is available behind the *Assessment* tile of the Moodle website for the *Programming in Java* module. When you accept the coursework assignment, your personal *GitHub* repository with the initial files for the coursework assignment will be set up for you so that you can use it with your GitHub account. It is up to you whether you create a new GitHub account for this assignment or use an existing GitHub account.
-
-You are expected to work on the coursework in your assigned *GitHub* repository. You must create commits, with messages, that describe the history of the development of your project. We expect **a rich commit history**. *You will lose marks if you do not meet this requirement*. The use of other features of git, e.g., branches, is optional and does not contribute to your mark.
-
-Information about the release date and the submission deadline for this coursework assignment is available behind the *Assessment* tile of the Moodle website for the *Programming in Java* module.
-
-### Academic declaration
-
-The file `README.md` shall contain your name in the first section. In the second section, you shall provide the following academic declaration:
-
-"I have read and understood the sections of plagiarism in the College Policy
-on academic integrity and misconduct and confirm that the work is my own, with
-the work of others clearly acknowledged. I give my permission to submit my
-report to the plagiarism testing database that the College is using and test it
-using plagiarism detection software, search engines or meta-searching software."
-
-This refers to the following document: [College Policy on academic integrity and misconduct](https://www.bbk.ac.uk/downloads/registry/student-policies-2023-24/academic-integrity-policy.pdf)
-
-***A submission without this declaration shall receive 0 marks.***
-
-The other sections (from "Description of the coursework: SkraBBKle" onward) shall not be modified.
-
-*Hint:* Cloning your repository from GitHub to your computer, then entering your name and the academic declaration into `README.md`, and then committing and pushing your changes to GitHub could be a wonderful way to start your coursework assignment and check whether your git set-up works as intended.
-
-### Submission
-
-The files of the final version of your project must be submitted via GitHub ***and*** via Moodle. We require at least the following in your submission:
-
-- `README.md` with your name and your academic declaration added in the first two sections
-- `src/pij/main/Main.java`
-- `resources/defaultBoard.txt`
-- `resources/wordlist.txt`
-
-and any other files or directories that are needed for the program started from class `Main` in package `pij.main` to run, as well as the JUnit tests.
-
-> Note: by the deadline of coursework submission, you must have both:
-> 
-> - the GitHub repo with the final version of your coursework (and history)
-> - the code of the project on Moodle
-> 
-> Both entries contribute to your mark. 
-
-### Additional Libraries
-
-You can use *any standard Java libraries that are part of Java 17* in your implementation. Additionally, you will need the libraries for JUnit 5. Otherwise, no libraries are allowed.
-
-
-## Marking
-
-We aim to determine your mark according to the following rubric:
-
-|Category| Weight | full | 3/4 | 1/2 | 1/4 | 0 |
-|--|--|--|--|--|--|--|
-| **User requirements** (*completeness* = system responds to all use scenarios; *correctness* = all responses are as expected) | 40% | Correct and complete | Correct and mostly complete | Mostly correct and mostly complete | Either mostly incorrect and mostly complete, or mostly incomplete and mostly correct | Either fully incorrect, or fully incomplete, or mostly incorrect and mostly incomplete |  
-| **Implementation requirements** (*completeness* = a sensible design has been chosen; *correctness* = its implementation is correct | 30% |Correct and complete | Correct and mostly complete | Mostly correct and mostly complete | Either mostly incorrect and mostly complete, or mostly incomplete and mostly correct | Either fully incorrect, or fully incomplete, or mostly incorrect and mostly incomplete |
-| **Validation** (*completeness* = appropriate variety of scenarios are verified; *correctness* = tests for them are correctly written) | 10% | Correct and complete | Correct and mostly complete | Mostly correct and mostly complete | Either mostly incorrect and mostly complete, or mostly incomplete and mostly correct | Either fully incorrect, or fully incomplete, or mostly incorrect and mostly incomplete |
-| **Development style** (*well-structured code* = visual readability and non-redundancy (see Software Specification); *commit history* = rich commit history (see Development and Submission) | 20% | Well-structured code and a rich commit history | Well-structured code and a moderately rich commit history | Nearly well-structured code and a moderately rich commit history | Not well-structured code or poor commit history | Not well-structured code and poor commit history |
-
-
-
-# Credits
-
-The file `resources/wordlist.txt` is a slightly abridged version of the SOWPODS word list that is available for download [here](https://www.wordgamedictionary.com/sowpods/).
